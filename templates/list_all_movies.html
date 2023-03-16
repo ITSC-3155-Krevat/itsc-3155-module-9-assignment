@@ -4,6 +4,18 @@
 
 {% block body %}
 <h1 class="mb-5">All Movies</h1>
-<p class="mb-3">See our list of movie ratings below</p>
+<!-- <p class="mb-3">See our list of movie ratings below</p> -->
 <!-- TODO: Feature 1 -->
+<table class="table of movies">
+    <tr>
+        <th>Title</th>
+        <th>Director</th>
+        <th>Rating</th>
+        {% for movie in movies %}
+            <td>{{ movie.title }}</td>
+            <td>{{ movie.director }}</td>
+            <td>{{ movie.rating }}</td>
+        {% endfor %}
+    </tr>
+</table>
 {% endblock %}
