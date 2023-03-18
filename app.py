@@ -4,6 +4,9 @@ from src.repositories.movie_repository import get_movie_repository
 
 app = Flask(__name__)
 
+#if __name__ == "__main__":
+   # app.run()
+
 # Get the movie repository singleton to use throughout the application
 movie_repository = get_movie_repository()
 
