@@ -16,7 +16,12 @@ def index():
 @app.get('/movies')
 def list_all_movies():
     # TODO: Feature 1
-    return render_template('list_all_movies.html', list_movies_active=True)
+    movie_repository.create_movie('banana','test',4)
+    movies = movie_repository.get_all_movies()
+    arr = []
+    for key, value in movies.items():
+        arr.append({'id':key, 'title':value.title, 'director':value.director, 'rating':value.rating})
+    return render_template('list_all_movies.html', list_movies_active=True, movies=arr)
 
 
 @app.get('/movies/new')

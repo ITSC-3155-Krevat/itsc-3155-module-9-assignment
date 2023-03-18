@@ -19,17 +19,17 @@
     <tbody>
     {% for movie in movies %}
     <tr>
-        <td>{{ movie.name }}</td>
+        <td>{{ movie.title }}</td>
         <td>{{ movie.director }}</td>
         <td>{{ movie.rating }}</td>
         <td>
-            <form method="POST" action="/movies/<int:movie_id>/delete">
-                <button name="remove-btn" type="submit" class="btn btn-danger" value="{{ movie.id }}">Delete</button>
+            <form method="POST" action="/movies/{{ movie.id }}/delete">
+                <button name="remove-btn" type="submit" class="btn btn-danger" value="{{ movie_id }}">Delete</button>
             </form>
         </td>
         <td>
-            <form method="POST" action="/movies/<int:movie_id>">
-                <button name="edit-btn" type="submit" class="btn btn-info" value="{{ movie.id }}">Edit</button>
+            <form method="POST" action="/movies/{{ movie.id }}">
+                <button name="edit-btn" type="submit" class="btn btn-info" value="{{ movie_id }}">Edit</button>
             </form>
         </td>
     </tr>
