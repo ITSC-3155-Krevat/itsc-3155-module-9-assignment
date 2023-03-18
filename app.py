@@ -16,7 +16,6 @@ def index():
 @app.get('/movies')
 def list_all_movies():
     # TODO: Feature 1
-    movie_repository.create_movie('banana','test',4)
     movies = movie_repository.get_all_movies()
     arr = []
     for key, value in movies.items():
