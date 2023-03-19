@@ -1,5 +1,4 @@
 from flask import Flask, redirect, render_template, request
-
 from src.repositories.movie_repository import get_movie_repository
 
 app = Flask(__name__)
@@ -22,7 +21,6 @@ def list_all_movies():
         arr.append({'id':key, 'title':value.title, 'director':value.director, 'rating':value.rating})
     return render_template('list_all_movies.html', list_movies_active=True, movies=arr)
 
-
 @app.get('/movies/new')
 def create_movies_form():
     return render_template('create_movies_form.html', create_rating_active=True)
@@ -41,7 +39,6 @@ def create_movie():
     # After creating the movie in the database, we redirect to the list all movies page
     return redirect('/movies')
 
-
 @app.get('/movies/search')
 def search_movies():
     # TODO: Feature 3
@@ -51,7 +48,8 @@ def search_movies():
 @app.get('/movies/<int:movie_id>')
 def get_single_movie(movie_id: int):
     # TODO: Feature 4
-    return render_template('get_single_movie.html')
+    movie = movie_repository.get_movie_by_id(movie_id)
+    return render_template('get_single_movie.html', movie=movie)
 
 
 @app.get('/movies/<int:movie_id>/edit')
