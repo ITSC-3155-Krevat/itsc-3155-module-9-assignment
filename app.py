@@ -31,7 +31,7 @@ def create_movies_form():
 @app.post('/movies')
 def create_movie():
     # TODO: Feature 2
-    # Get the data from the form submission
+    # This gets the data from the form submission
     movie_title = request.form.get('title')
     movie_director = request.form.get('director')
     movie_rating = request.form.get('rating')
