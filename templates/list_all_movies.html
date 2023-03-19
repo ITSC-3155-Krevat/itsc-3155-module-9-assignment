@@ -6,4 +6,34 @@
 <h1 class="mb-5">All Movies</h1>
 <p class="mb-3">See our list of movie ratings below</p>
 <!-- TODO: Feature 1 -->
+<table class="table table-striped">
+    <thead>
+        <tr scope="row">
+            <th>Movie Name</th>
+            <th>Director</th>
+            <th>Rating</th>
+            <th>Delete</th>
+            <th>Edit</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for movie in movies %}
+    <tr>
+        <td>{{ movie.title }}</td>
+        <td>{{ movie.director }}</td>
+        <td>{{ movie.rating }}</td>
+        <td>
+            <form method="POST" action="/movies/{{ movie.id }}/delete">
+                <button name="remove-btn" type="submit" class="btn btn-danger" value="{{ movie_id }}">Delete</button>
+            </form>
+        </td>
+        <td>
+            <form method="POST" action="/movies/{{ movie.id }}">
+                <button name="edit-btn" type="submit" class="btn btn-info" value="{{ movie_id }}">Edit</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
