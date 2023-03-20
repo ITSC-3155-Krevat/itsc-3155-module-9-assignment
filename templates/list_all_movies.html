@@ -6,4 +6,37 @@
 <h1 class="mb-5">All Movies</h1>
 <p class="mb-3">See our list of movie ratings below</p>
 <!-- TODO: Feature 1 -->
+<style>
+    table{
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%
+    }
+    th, td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid rgb(33, 11, 11)
+    }
+    th{
+        background-color: darkolivegreen;
+    }
+</style>
+
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Rating</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {% for movie in movies %}
+			<tr>
+				<td>{{ movie.title }}</td>
+				<td>{{ movie.rating }}</td>
+			</tr>
+		{% endfor %}
+    </tbody>
+</table>
 {% endblock %}

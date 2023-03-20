@@ -16,6 +16,19 @@ def index():
 @app.get('/movies')
 def list_all_movies():
     # TODO: Feature 1
+     movies = [
+        {'title': 'Everything Everywhere All at Once', 'rating': 9.7},
+        {'title': 'Avatar', 'rating': 8.6},
+        {'title': 'Interstellar', 'rating': 9.5},
+        {'title': 'La La Land', 'rating': 9.1},
+        {'title': 'Corpse Bride', 'rating': 8.2},
+        {'title': 'Before Sunrise', 'rating': 8.9},
+        {'title': 'Howls Moving Castle', 'rating': 9.2},
+        {'title': 'The Avengers', 'rating': 7.8},
+        {'title': 'Life of Pi', 'rating': 8.7},
+        {'title': 'Nope', 'rating': 8.9}     
+    ]
+   
     return render_template('list_all_movies.html', list_movies_active=True)
 
 
