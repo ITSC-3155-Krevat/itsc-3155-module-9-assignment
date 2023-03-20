@@ -28,8 +28,10 @@ def list_all_movies():
         {'title': 'Life of Pi', 'rating': 8.7},
         {'title': 'Nope', 'rating': 8.9}     
     ]
+     
+     return render_template('list_all_movies.html', movies= movies, list_movies_active=True)
    
-    return render_template('list_all_movies.html', list_movies_active=True)
+    #return render_template('list_all_movies.html', list_movies_active=True)
 
 
 @app.get('/movies/new')
