@@ -5,4 +5,10 @@
 {% block body %}
 <h1 class="mb-5"></h1>
 <!-- TODO: Feature 4 -->
+<h1>{{ movie.name }}</h1>
+<p>Director: {{ movie.director }}</p>
+<p>Rating: {{ movie.rating }}</p>
+
+<a href="/movies/{{ movie.id }}/edit">Edit</a>
+<a href="/movies/{{ movie.id }}/delete">Delete</a>
 {% endblock %}
