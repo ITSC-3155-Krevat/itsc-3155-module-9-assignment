@@ -2,7 +2,7 @@ from random import randint
 
 from src.models.movie import Movie
 
-_movie_repo = {"a" : {}}
+_movie_repo = None
 
 
 def get_movie_repository():
