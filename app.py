@@ -15,8 +15,16 @@ def index():
 
 @app.get('/movies')
 def list_all_movies():
+    data = []
+
+    for key in movie_repository.get_all_movies():
+        if(movie_repository.get_movie_by_title(movie_repository.get_movie_by_id(key).title) not in data):
+            data.append(movie_repository.get_movie_by_id(key))
+
+    table_headings = ("Title","Director","Rating")
+
     # TODO: Feature 1
-    return render_template('list_all_movies.html', list_movies_active=True)
+    return render_template('list_all_movies.html', list_movies_active=True,data=data,table_headings=table_headings)
 
 
 @app.get('/movies/new')
@@ -59,3 +67,5 @@ def update_movie(movie_id: int):
 def delete_movie(movie_id: int):
     # TODO: Feature 6
     pass
+
+
