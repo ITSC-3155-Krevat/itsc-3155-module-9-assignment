@@ -6,4 +6,28 @@
 <h1 class="mb-5">All Movies</h1>
 <p class="mb-3">See our list of movie ratings below</p>
 <!-- TODO: Feature 1 -->
+{% if not movie_repository.get_all_movies() %}
+<h4>Sorry, there are no movies currently in the repository.</h4>
+<h6>Please add a movie to view the movie ratings.</h6>
+
+{% else %}
+<table class = "table table-striped table-bordered">
+    <thead class="thead-light">
+        <tr>
+            <th scope = "col">Movie Name</th>
+            <th scope = "col">Director</th>
+            <th scope = "col">Rating out of 5</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for key, movie in movie_repository.get_all_movies().items() %}
+        <tr>
+            <td>{{  movie.title  }}</td>
+            <td>{{  movie.director  }}</td>
+            <td>{{  movie.rating  }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
 {% endblock %}
