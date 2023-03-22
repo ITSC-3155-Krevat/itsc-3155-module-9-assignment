@@ -1,23 +1,30 @@
 # TODO: Feature 5
-from tests.e2e.conftest import test_app
 from src.repositories.movie_repository import get_movie_repository
-# Testing if the edit works
-# Harry Potter: The Chamber of Secrets - David Yates - 3 -> Harry Potter: The Chamber of Secrets - David Yates - 5
-def test_update_movie(test_app):
+
+def test_edit_movie_page(test_app):
     movie_repository = get_movie_repository()
-    temp_movie = movie_repository.create_movie('Harry Potter: The Chamber of Secrets', 'David Yates', 3)
-    movie_id = temp_movie.movie_id
-    updated_movie_data = {
-    # Updated the rating from 3 to 5 with the same title and director of the movie
-        'title': 'Harry Potter: The Chamber of Secrets',
-        'director': 'Davis Yates',
-        'rating': 5
-    
-    }
-    # Updating all of the titles, director, and ratings
-    response = test_app.post(f'/movies/{movie_id}', data=updated_movie_data)
-    assert response.status_code == 302 
-    updated_movie = movie_repository.get_movie_by_id(movie_id)
-    assert updated_movie.title == updated_movie_data['title']
-    assert updated_movie.director == updated_movie_data['director']
-    assert updated_movie.rating == updated_movie_data['rating']
+    examplemovie = movie_repository.create_movie('Harry Potter: The Chamber of Secrets', 'Davis Yates', 3)
+    movie_repository._db[0] = examplemovie
+# Checking the response within the database in the first array with the movie filler.
+    response = test_app.get('/movies/0/edit')
+    data = response.data.decode('utf-8')
+
+    assert response.status_code == 200
+
+    assert '''  <label for="title">Title</label>
+  <input type="text" class="form-control" id="title" name="title" value='Harry Potter: The Chamber of Secrets' required>
+  <br>
+  <label for="director">Director</label>
+  <input type="text" class="form-control" id="director" name="director" value='Davis Yates' required>
+  <br>
+  <label for="rating">Rating</label> 
+  <select class="form-control" id="rating" name="rating" required>
+    <option value="1" >1</option>
+    <option value="2" >2</option>
+    <option value="3" >3</option>
+    <option value="4" >4</option>
+    <option value="5" selected>5</option>
+  </select>
+  <br>
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>  ''' in data
