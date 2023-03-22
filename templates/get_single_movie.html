@@ -12,10 +12,10 @@
     <div class="card-body">
         <p class="card-text">Movie Director: {{ movie.director }}</p>
         <p class="card-text">Rating: {{ movie.rating }}</p>
-        <form method="Post" action="/movies/{{ movie.movie.id }}/delete">
+        <form method="Post" action="/movies/{{ movie.movie_id }}/delete">
             <button name="remove-btn" type="submit" class="btn btn-danger" value="{{movie.movie_id }}">Delete</button>
         </form>
-        <form method="get" action="/movies/{{ movie.movie_id }}">
+        <form method="get" action="/movies/{{ movie.movie_id }}/edit">
             <button name="edit-btn" type="submit" class="btn btn-info" value="{{ movie.movie_id }}">Edit</button>
         </form>
     </div>
