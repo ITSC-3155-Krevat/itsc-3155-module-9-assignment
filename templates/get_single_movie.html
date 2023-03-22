@@ -5,4 +5,13 @@
 {% block body %}
 <h1 class="mb-5"></h1>
 <!-- TODO: Feature 4 -->
+<h1>Title: {{ movie.title }}</h1>
+<p>Director: {{ movie.director }}</p>
+<p>Rating: {{ movie.rating }}</p>
+
+<form action="/movies/{{ movie.movie_id }}/edit" method="GET">
+    <button class = "btn btn-dark" type="editbtn">Edit</button>
+</form>
+<br>
+<button class = "btn btn-danger" type="deletebtn">Delete</button>
 {% endblock %}
