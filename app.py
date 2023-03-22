@@ -67,9 +67,12 @@ def search_movies():
     title = request.form.get('title', '', type=str)
     movie = movie_repository.get_movie_by_title(title)
     if movie == title:
-        return render_template('get_single_movie.html')
-    else:
+        movie_id = movie_repository.get_movie_by_id(movie)
+        return render_template('get_single_movie.html', movie_id = movie_id)
+    elif movie == None:
         return render_template('search_movies.html', search_active=True)
+    else:
+        return render_template('index.html')
 
 @app.get('/movies/<int:movie_id>')
 def get_single_movie(movie_id: int):
