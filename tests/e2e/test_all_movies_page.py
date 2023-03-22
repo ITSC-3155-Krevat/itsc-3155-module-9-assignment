@@ -24,7 +24,6 @@ def test_all_movies():
     assert '<td scope="row" class="table-success">steven</td>' not in data
     assert '<td scope="row" class="table-success">testmovie1</td>' not in data
     assert '<td scope="row" class="table-success">33</td>' not in data
-    
-    # assert dict.get
+
     
 
