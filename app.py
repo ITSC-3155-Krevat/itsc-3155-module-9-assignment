@@ -64,8 +64,8 @@ def update_movie(movie_id: int):
     movie_title = request.form.get('title')
     movie_director = request.form.get('director')
     movie_rating = request.form.get('rating')
-
-    # Create the movie in the database
+ 
+    # This line Creating the movie in the database
     movie_repository.update_movie(movie_id, movie_title,movie_director, movie_rating)
     # After updating the movie in the database, we redirect back to that single movie page
     return redirect(f'/movies/{movie_id}')
