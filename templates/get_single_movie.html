@@ -10,7 +10,8 @@
 <p>Rating: {{ movie.rating }}</p>
 
 <form action="/movies/{{ movie.movie_id }}/edit" method="GET">
-    <button type="editbtn">Edit</button>
+    <button class = "btn btn-dark" type="editbtn">Edit</button>
 </form>
-<button type="deletebtn">Delete</button>
+<br>
+<button class = "btn btn-danger" type="deletebtn">Delete</button>
 {% endblock %}
