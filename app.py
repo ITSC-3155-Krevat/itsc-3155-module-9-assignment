@@ -37,7 +37,7 @@ def create_movies_form():
     return render_template('create_movies_form.html', create_rating_active=True)
 
 
-@app.post('/movies/create')
+@app.post('/movies')
 def create_movie():
     # TODO: Feature 2
     # After creating the movie in the database, we redirect to the list all movies page
