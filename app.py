@@ -61,18 +61,37 @@ def create_movie():
     return redirect('/movies')
 
 
-@app.get('/movies/search')
+@app.post('/movies/search')
 def search_movies():
     # TODO: Feature 3
+    titles = str(request.form.get('title'))
+    movie1 = movie_repository.get_movie_by_title(titles)
+    if movie1 is None:
+        return render_template('search_movies.html', search_active=True)
+    movie1 = movie1.title
+    print('----------------')
+    print(titles)
+    print(movie1)
+    print('----------------')
+    if movie1 == titles:
+        movie_id_1 = movie_repository.get_movie_by_title(titles).movie_id
+        return redirect(f'/movies/{movie_id_1}')
+    else:
+        return render_template('search_movies.html', search_active=True)
+@app.get('/movies/search')
+def search():
     return render_template('search_movies.html', search_active=True)
 
 
 @app.get('/movies/<int:movie_id>')
 def get_single_movie(movie_id: int):
     # TODO: Feature 4
-    movie = movie_repository.get_movie_by_id(movie_id)
+    # movie_alpha is set equal to the value retrieved by movie_repository.get_movie_by_id(movie_id)
+    movie_alpha = movie_repository.get_movie_by_id(movie_id)
     
-    return render_template('get_single_movie.html', movie=movie)
+    # we return the rendered template get_single_movie.html with the 
+    # information searched for in the search function above
+    return render_template('get_single_movie.html', movie=movie_alpha)
 
 
 @app.get('/movies/<int:movie_id>/edit')
