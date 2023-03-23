@@ -12,8 +12,7 @@
             <th>Movie Name</th>
             <th>Director</th>
             <th>Rating</th>
-            <th>Delete</th>
-            <th>Edit</th>
+            <th>Select</th>
         </tr>
     </thead>
     <tbody>
@@ -23,13 +22,8 @@
         <td>{{ movie.director }}</td>
         <td>{{ movie.rating }}</td>
         <td>
-            <form method="POST" action="/movies/{{ movie.id }}/delete">
-                <button name="remove-btn" type="submit" class="btn btn-danger" value="{{ movie_id }}">Delete</button>
-            </form>
-        </td>
-        <td>
-            <form method="POST" action="/movies/{{ movie.id }}">
-                <button name="edit-btn" type="submit" class="btn btn-info" value="{{ movie_id }}">Edit</button>
+            <form method="get" action="/movies/{{ movie.id }}">
+                <button name="select-btn" type="submit" class="btn btn-info" value="{{ movie.id }}">Select</button>
             </form>
         </td>
     </tr>
