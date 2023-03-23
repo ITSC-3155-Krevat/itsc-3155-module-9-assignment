@@ -4,5 +4,20 @@
 
 {% block body %}
 <h1 class="mb-5"></h1>
-<!-- TODO: Feature 4 -->
+<!-- Feature 4: As a user, I should be able to view a movie in isolation and have access to edit and delete that movie. -->
+<div class="card mb-3">
+    <div class="card-header">
+        <h2>{{ movie.title }}</h2>
+    </div>
+    <div class="card-body">
+        <p class="card-text">Movie Director: {{ movie.director }}</p>
+        <p class="card-text">Rating: {{ movie.rating }}</p>
+        <form method="Post" action="/movies/{{ movie.movie_id }}/delete">
+            <button name="remove-btn" type="submit" class="btn btn-danger" value="{{movie.movie_id }}">Delete</button>
+        </form>
+        <form method="get" action="/movies/{{ movie.movie_id }}/edit">
+            <button name="edit-btn" type="submit" class="btn btn-info" value="{{ movie.movie_id }}">Edit</button>
+        </form>
+    </div>
+</div>
 {% endblock %}
