@@ -1,21 +1,25 @@
 # TODO: Feature 3
+
+from src.repositories.movie_repository import get_movie_repository
+from src.models.movie import Movie
 from app import app
-from src.repositories.movie_repository import MovieRepository
 
-client = app.test_client()
-movie_repository = MovieRepository()
+movie = get_movie_repository()
+movie.create_movie('Toy Story', 'John Lasser', 3)
 
+def test_search_movies():
+    test_app = app.test_client()
+    response = test_app.get('/movies/search')
+    assert b'<p class="mb-3">Search for a movie rating below</p>' in response.data
 
-def test_search_movies_page():
+def test_search_movies_with_movie():
+    test_app = app.test_client()
+    response = test_app.get('/movies/search?searched=Toy+Story')
+    print(response.data)
+    assert b'<h2 class="text-center">Found your movie!</h2>' in response.data
+    assert b'<th>Toy Story</th>' in response.data
 
-    movie_repository.create_movie("The Dark Knight", "Christopher Nolan", 5)
-    movie_repository.create_movie("Inception", "Christopher Nolan", 4)
-    movie_repository.create_movie("The Matrix", "Lana Wachowski and Lilly Wachowski", 4)
-    
-    response = client.get('/movies/search')
-    
-    assert response.status_code == 200
-    
-    assert b'<form method="get" action="/movies/search/results">' in response.data
-    
-    assert b'<button type="submit" class="btn btn-primary">Search</button>' in response.data
+def test_search_movies_with_wrong_movie():
+    test_app = app.test_client()
+    response = test_app.get('/movies/search?searched=toyStroy')
+    assert b'<h2 class="text-center">Could not find your movie</h2>' in response.data
