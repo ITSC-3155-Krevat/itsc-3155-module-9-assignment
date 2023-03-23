@@ -3,6 +3,15 @@
 {% block title %}Movie Rating App | Movie{% endblock %}
 
 {% block body %}
-<h1 class="mb-5"></h1>
+<h1 class="mb-5">Search Result!</h1>
 <!-- TODO: Feature 4 -->
+
+<div class="card">
+    <div class="card-body">
+        <h2 class="card-title">{{movie.title}}</h2>
+        <h2 class="card-subtitle mb-2 text-muted">{{movie.director}}</h2>
+        <h2 class="card-text">Rating: {{movie.rating}}/5</h2>
+    </div>
+</div>
+
 {% endblock %}

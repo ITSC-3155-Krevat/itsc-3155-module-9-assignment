@@ -6,4 +6,12 @@
 <h1 class="mb-5">Search Movie Ratings</h1>
 <p class="mb-3">Search for a movie rating below</p>
 <!-- TODO: Feature 3 -->
+<p class="mb-3"> Enter a movie title to be searched: </p>
+
+<form action="/movies/search" method="post">
+    <input type="string" name="title" id="title" required>
+    <button type="submit">Submit</button>
+</form>
+
+
 {% endblock %}
