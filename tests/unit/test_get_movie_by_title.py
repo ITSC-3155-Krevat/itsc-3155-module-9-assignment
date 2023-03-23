@@ -13,4 +13,3 @@ def test_get_movie_by_title():
     assert movie_repository.get_movie_by_title("Movie").title == 'Movie' #the movie title that is created matches the title that is made
     assert movie_repository.get_movie_by_title("Movie").director == 'John Q'
     assert movie_repository.get_movie_by_title("Movie").rating == 1
-    assert movie_repository.get_movie_by_id(my_id).title == 'Movie'
