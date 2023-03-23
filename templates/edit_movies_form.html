@@ -4,5 +4,32 @@
 
 {% block body %}
 <h1 class="mb-5"></h1>
+
 <!-- TODO: Feature 5 -->
+<h1 class="mb-5">Edit Movie: " {{ movie.title }} "</h1>
+
+<form method="POST" action="/movies/{{ movie.movie_id }}">
+    <div class="mb-3">
+        <label for="title" class="form-label">Movie Name</label>
+        <input type="text" class="form-control" id="title" name="title" value="{{ movie.title }}"  >
+    </div>
+<div class="mb-3">
+    <label for="director" class="form-label">Director</label>
+    <input type="text"class="form-control" id="director" name="director"  value="{{ movie.director }}" >
+</div>
+<div class="mb-3">
+    <label for="rating" class="form-label">Rating</label>
+    <select class="form-select" id="rating" name="rating" required>
+        <option selected disabled value="">Select New Rating Currently:  {{ movie.rating }}   </option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+</div>
+<button type="submit" class="btn btn-dark">Save Movie</button>
+
+</form>
+
 {% endblock %}
