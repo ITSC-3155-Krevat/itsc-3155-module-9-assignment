@@ -4,6 +4,33 @@
 
 {% block body %}
 <h1 class="mb-5">Search Movie Ratings</h1>
-<p class="mb-3">Search for a movie rating below</p>
-<!-- TODO: Feature 3 -->
+<h5 class="mb-2">Please use the exact title</h3> 
+    
+
+
+</p>
+<!-- Feature 3 -->
+<div class="input-group mb-3">
+    <form action="/movies/search" method="GET">
+        <div class="mb-3">
+            <label for="title" class="form-label">Movie Title:</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Enter title">
+
+        </div>
+        <input class="btn btn-primary" type="submit" value="Submit">
+        
+    </form>
+    {% if search_active %}
+        
+         <h1>Result</h1>
+        {% if rating %}
+        
+            <p>The rating for "{{ title }}" is: {{ rating }}/10</p>
+        {% else %}
+        
+            <p>No rating found for "{{ title }}"</p>
+        {% endif %}
+    {% endif %}
+
+</div>
 {% endblock %}

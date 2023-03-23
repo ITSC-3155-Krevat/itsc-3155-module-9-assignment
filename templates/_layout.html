@@ -25,6 +25,9 @@
           </li>
           <li class="nav-item">
             <a class="nav-link{% if search_active %} active{% endif %}" href="/movies/search">Search</a>
+          </li>      
+          <li class="nav-item">
+            <a class="nav-link{% if get_single_movie_active %} active{% endif %}" href="{{ url_for('get_single_movie', movie_id=1) }}">Watch a Movie</a>
           </li>
         </ul>
       </div>
