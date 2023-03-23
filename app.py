@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template
+from flask import Flask, redirect, request, render_template
 
 from src.repositories.movie_repository import get_movie_repository
 
@@ -27,6 +27,10 @@ def create_movies_form():
 @app.post('/movies')
 def create_movie():
     # TODO: Feature 2
+    movie_name = request.form.get('movie-name', type = str)
+    movie_director = request.form.get('movie-director', type = str)
+    movie_ranking = request.form.get('rating', type = int)
+    movie_repository.create_movie(movie_name, movie_director, movie_ranking)
     # After creating the movie in the database, we redirect to the list all movies page
     return redirect('/movies')
 
@@ -39,12 +43,7 @@ def search_movies():
 
 @app.get('/movies/<int:movie_id>')
 def get_single_movie(movie_id: int):
-    # TODO: Feature 4
-    movie = movie_repository.get_movie_by_id(movie_id)
-    if movie is None:
-        # return jsonify({'message': 'Movie not found'}), 404
-        return render_template('get_single_movie.html')
-    return render_template('get_single_movie.html',movie =movie)
+    return render_template('get_single_movie.html')
 
 
 
