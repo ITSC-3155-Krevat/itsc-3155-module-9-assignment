@@ -65,23 +65,25 @@ def create_movie():
 def search_movies():
     # TODO: Feature 3
     titles = str(request.form.get('title'))
-    movie1 = movie_repository.get_movie_by_title(titles)
-    if movie1 is None:
+    titles = str.lower(titles)
+    titles = str.title(titles)
+    search_movie = movie_repository.get_movie_by_title(titles)
+    if search_movie is None:
         return render_template('search_movies.html', search_active=True)
-    movie1 = movie1.title
+    search_movie = search_movie.title
     print('----------------')
     print(titles)
-    print(movie1)
+    print(search_movie)
     print('----------------')
-    if movie1 == titles:
-        movie_id_1 = movie_repository.get_movie_by_title(titles).movie_id
-        return redirect(f'/movies/{movie_id_1}')
+    if search_movie == titles:
+        search_movie_id = movie_repository.get_movie_by_title(titles).movie_id
+        return redirect(f'/movies/{search_movie_id}')
     else:
-        return render_template('search_movies.html', search_active=True)
+        return render_template('search_movies.html', search_active=True)   
+
 @app.get('/movies/search')
 def search():
     return render_template('search_movies.html', search_active=True)
-
 
 @app.get('/movies/<int:movie_id>')
 def get_single_movie(movie_id: int):
