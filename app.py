@@ -65,6 +65,8 @@ def create_movie():
 def search_movies():
     # TODO: Feature 3
     titles = str(request.form.get('title'))
+    titles = str.lower(titles)
+    titles = str.title(titles)
     search_movie = movie_repository.get_movie_by_title(titles)
     if search_movie is None:
         return render_template('search_movies.html', search_active=True)
