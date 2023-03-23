@@ -6,4 +6,34 @@
 <h1 class="mb-5">Search Movie Ratings</h1>
 <p class="mb-3">Search for a movie rating below</p>
 <!-- TODO: Feature 3 -->
+<form action="/movies/search" method="get">
+    <div class="container">
+        <input type="text" class="form-control" name="searched" placeholder="Search for movie title" required><br>
+        <button class="btn btn-primary">Search</button>
+    </div>
+</form>
+{% if found_movie is not none %}
+    {% if found_movie == 'Not Found' %}
+        <div class="m-3">
+            <h2 class="text-center">Could not find your movie</h2>
+        </div>
+    {% else %}
+        <br>
+        <div class="m-3">
+            <h2 class="text-center">Found your movie!</h2>
+        </div>
+        <table id ="movie" class="table table-striped">
+            <tr>
+                <th>Title</th>
+                <th>Director</th>
+                <th>Rating</th>
+            </tr>
+            <tr>
+                <th>{{found_movie.title}}</th>
+                <th>{{found_movie.director}}</th>
+                <th>{{found_movie.rating}}</th>
+            </tr>
+        </table>
+    {% endif %}
+{% endif %}
 {% endblock %}
