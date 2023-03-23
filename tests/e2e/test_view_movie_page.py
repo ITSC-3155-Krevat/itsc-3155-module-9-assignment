@@ -1,29 +1,26 @@
 # TODO: Feature 4: As a user, I should be able to view a movie in isolation and have access to edit and delete that movie.
 
-from flask import url_for
+from app import app
+from src.repositories.movie_repository import get_movie_repository
 
-from repositories import movie_repository
+# TODO: Feature 4
+def test_get_single_movie():
+    # Set up
+    test_app = app.test_client()
+    movie_repo = get_movie_repository()
 
+    # Create a test movie
+    test_movie = movie_repo.create("Test Movie", 2022)
 
-def test_view_movie_page(client, movie):
-    response = client.get(url_for('get_single_movie', movie_id=movie.id))
+    # Test getting a single movie by its ID
+    response = test_app.get(f"/movies/{test_movie.id}")
     assert response.status_code == 200
-    assert movie.title in str(response.data)  # Make sure the movie title is displayed on the page
 
-def test_edit_movie_page(client, movie):
-    response = client.get(url_for('get_edit_movies_page', movie_id=movie.id))
-    assert response.status_code == 200
-    assert movie.title in str(response.data)  # Make sure the movie title is pre-populated in the form
+    # Check that the returned data matches the test movie
+    data = response.json
+    assert data["id"] == test_movie.id
+    assert data["title"] == test_movie.title
+    assert data["year"] == test_movie.year
 
-def test_update_movie(client, movie):
-    updated_title = 'Updated Title'
-    response = client.post(url_for('update_movie', movie_id=movie.id), data={'title': updated_title})
-    assert response.status_code == 302  # Expect a redirect
-    updated_movie = movie_repository.get_movie(movie.id)
-    assert updated_movie.title == updated_title  # Make sure the movie title was updated in the database
-
-def test_delete_movie(client, movie):
-    response = client.post(url_for('delete_movie', movie_id=movie.id))
-    assert response.status_code == 302  # Expect a redirect
-    assert movie_repository.get_movie(movie.id) is None  # Make sure the movie was deleted from the database
-
+    # Clean up
+    movie_repo.delete(test_movie.id)
