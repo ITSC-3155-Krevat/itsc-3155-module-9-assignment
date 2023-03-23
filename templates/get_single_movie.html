@@ -3,6 +3,15 @@
 {% block title %}Movie Rating App | Movie{% endblock %}
 
 {% block body %}
-<h1 class="mb-5"></h1>
+<h1 class="mb-5">Search Result!</h1>
 <!-- TODO: Feature 4 -->
+
+<div class="card" style="background-color: rgb(128, 122, 122);">
+    <div class="card-body">
+        <h2 class="card-title text-center">{{movie.title}}</h2>
+        <h3 class="card-subtitle mb-2 text-center">Director: {{movie.director}}</h3>
+        <h3 class="card-text text-center">Rating: {{movie.rating}}/5</h3>
+    </div>
+</div>
+
 {% endblock %}
