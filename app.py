@@ -1,5 +1,6 @@
-from flask import Flask, redirect, render_template, abort, request
+
 from src.models.movie import Movie
+from flask import Flask, redirect, render_template, request
 
 from src.repositories.movie_repository import get_movie_repository
 
@@ -22,19 +23,29 @@ def index():
 @app.get('/movies')
 def list_all_movies():
     # TODO: Feature 1
+    #test
     all_movies = movie_repository.get_all_movies()
     return render_template('list_all_movies.html', list_movies_active=True, all_movies = all_movies)
 
 
 @app.get('/movies/new')
 def create_movies_form():
+    
+
+        
+
     return render_template('create_movies_form.html', create_rating_active=True)
 
 
-@app.post('/movies')
+@app.post('/movies/create')
 def create_movie():
     # TODO: Feature 2
     # After creating the movie in the database, we redirect to the list all movies page
+    title = request.form.get['title']
+    director = request.form.get['director']
+    rating = int(request.form.get['rating'])
+
+    movie_repository.create_movie(title, director, rating)
     return redirect('/movies')
 
 
@@ -85,7 +96,6 @@ def update_movie(movie_id: int):
 def delete_movie(movie_id: int):
     # TODO: Feature 6
     pass
-
 
 if __name__ == "__main__":
     
