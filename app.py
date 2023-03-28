@@ -51,6 +51,10 @@ def get_edit_movies_page(movie_id: int):
 @app.post('/movies/<int:movie_id>')
 def update_movie(movie_id: int):
     # TODO: Feature 5
+    movie_repository.update_movie
+    # Resources
+    # https://www.blog.pythonlibrary.org/2017/12/14/flask-101-adding-editing-and-displaying-data/
+    # https://www.youtube.com/watch?v=Us9DuF4KWUE
     # After updating the movie in the database, we redirect back to that single movie page
     return redirect(f'/movies/{movie_id}')
 

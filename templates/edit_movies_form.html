@@ -1,8 +1,43 @@
-{% extends '_layout.html' %}
-
-{% block title %}Movie Rating App | Edit Movie{% endblock %}
-
-{% block body %}
+{% extends '_layout.html' %} {% block title %}Movie Rating App | Edit Movie{%
+endblock %} {% block body %}
 <h1 class="mb-5"></h1>
 <!-- TODO: Feature 5 -->
+<form method="POST" action="/events/{% event.id%}">
+  <!-- Title of movie -->
+  <p>
+    <label for="title">Title: </label>
+    <input
+      type="text"
+      aria-required="true"
+      value="{%movie.title%}"
+      id="title"
+      name="title"
+      required
+    />
+  </p>
+  <!-- Director of movie -->
+  <p>
+    <label for="director">Director: </label>
+    <input
+      type="text"
+      aria-required="true"
+      value="{%movie.director%}"
+      id="director"
+      name="director"
+      required
+    />
+  </p>
+  <!-- Rating of the movie -->
+  <p>
+    <label for="rating">Rating: </label>
+    <input
+      type="text"
+      aria-required="true"
+      value="{%movie.rating%}"
+      id="rating"
+      name="rating"
+      required
+    />
+  </p>
+</form>
 {% endblock %}
