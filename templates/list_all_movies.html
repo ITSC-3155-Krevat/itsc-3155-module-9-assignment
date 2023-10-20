@@ -5,5 +5,21 @@
 {% block body %}
 <h1 class="mb-5">All Movies</h1>
 <p class="mb-3">See our list of movie ratings below</p>
+<table class="table table-hover table-bordered table-sm">
+    <tr>
+        {% for head in table_headings %} 
+            <th scope="col" class="table-active">{{head}}</th>
+        {% endfor %}
+    </tr>
+    {% for item in data %}
+    <tr>
+        <td scope="row" class="table-success">{{item.title}}</td>
+        <td scope="row" class="table-success">{{item.director}}</td>
+        <td scope="row" class="table-success">{{item.rating}}</td>
+        
+    </tr>
+    
+    {% endfor %}
+</table>
 <!-- TODO: Feature 1 -->
 {% endblock %}
