@@ -26,10 +26,18 @@ def create_movies_form():
 
 @app.post('/movies')
 def create_movie():
+       
+    title = request.form.get('title', '').strip()
+    director = request.form.get('director', '').strip()
+    rating_str = request.form.get('rating', None)
     
-    title = request.form['title']
-    director = request.form['director']
-    rating = int(request.form['rating'])  
+    if not title or not director or not rating_str:
+        return "All fields are required!", 400 
+
+    try:
+        rating = int(rating_str)
+    except ValueError:
+        return "Invalid rating!", 400
     
     if rating < 1 or rating > 5:
         return "Rating must be between 1 and 5!", 400

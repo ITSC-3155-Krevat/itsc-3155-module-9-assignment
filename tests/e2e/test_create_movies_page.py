@@ -75,3 +75,53 @@ def test_create_movie_and_verify_in_list(test_app):
 
     assert movie_data["title"] in data
 
+
+def test_create_movie_empty_title(test_app):
+    movie_data = {
+        "title": "",
+        "director": "Vin Gasoline",
+        "rating": "5"
+    }
+
+    response = test_app.post('/movies', data=movie_data)
+    assert response.status_code == 400
+
+def test_create_movie_empty_director(test_app):
+    movie_data = {
+        "title": "The fat and the furious",
+        "director": "",
+        "rating": "5"
+    }
+
+    response = test_app.post('/movies', data=movie_data)
+    assert response.status_code == 400
+
+def test_create_movie_empty_rating(test_app):
+    movie_data = {
+        "title": "The fat and the furious",
+        "director": "Vin Gasoline",
+        "rating": ""
+    }
+
+    response = test_app.post('/movies', data=movie_data)
+    assert response.status_code == 400
+
+def test_create_movie_whitespace_title(test_app):
+    movie_data = {
+        "title": "   ",
+        "director": "Vin Gasoline",
+        "rating": "5"
+    }
+
+    response = test_app.post('/movies', data=movie_data)
+    assert response.status_code == 400
+
+def test_create_movie_non_numeric_rating(test_app):
+    movie_data = {
+        "title": "The fat and the furious",
+        "director": "Vin Gasoline",
+        "rating": "five"
+    }
+
+    response = test_app.post('/movies', data=movie_data)
+    assert response.status_code == 400
