@@ -4,6 +4,15 @@
 
 {% block body %}
 <h1 class="mb-5">Search Movie Ratings</h1>
-<p class="mb-3">Search for a movie rating below</p>
-<!-- TODO: Feature 3 -->
+
+{% if (rating): %}
+    <p class="mb-3">{{title}} has a rating of {{rating}} stars</p>
+{% else: %}
+    <p class="mb-3">Search for a movie rating below by its title!</p>
+    <!-- Feature 3 -->
+    <form action="/movies/search" method="get">
+        <input name="title" type="text" required>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endif %}
 {% endblock %}
