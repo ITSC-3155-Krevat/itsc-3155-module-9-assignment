@@ -4,6 +4,40 @@
 
 {% block body %}
 <h1 class="mb-5">Search Movie Ratings</h1>
-<p class="mb-3">Search for a movie rating below</p>
 <!-- TODO: Feature 3 -->
+{% if not search_active %}
+    <p class="mb-3">Search for a movie rating below</p>
+    <form action="/movies/search" method="GET">
+        <div class="mb-3">
+            <label for="title" class="form-label">Movie Name</label>
+            <input type="text" class="form-control" id="form_search" name="form_search" placeholder="Enter Movie Name" required>
+        </div>
+        <button type="submit" class="btn btn-dark">Search Movie</button>
+    </form>
+{% else %}
+    {% if movie %}
+        <table class="table table-striped">
+            <tr>
+                <th>Title</th>
+                <th>Director</th>
+                <th>Rating</th>
+            </tr>
+            <tr>
+                <td>{{ movie.title }}</td>
+                <td>{{ movie.director }}</td>
+                <td>{{ movie.rating }}</td>
+            </tr>
+        </table>
+    {% else %}
+        <p class="mb-3">Search for a movie rating below</p>
+        <form action="/movies/search" method="GET">
+            <div class="mb-3">
+                <label for="title" class="form-label">Movie Name</label>
+                <input type="text" class="form-control" id="form_search" name="form_search" placeholder="Enter Movie Name" required>
+            </div>
+            <button type="submit" class="btn btn-dark">Search Movie</button>
+        </form>
+        <p class="mb-3">Movie not found.</p>
+    {% endif %}
+{% endif %}
 {% endblock %}

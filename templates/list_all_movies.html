@@ -6,4 +6,33 @@
 <h1 class="mb-5">All Movies</h1>
 <p class="mb-3">See our list of movie ratings below</p>
 <!-- TODO: Feature 1 -->
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Director</th>
+            <th scope="col">Rating</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if not movies %}
+        <tr>
+            <td colspan="3">No movies found</td>
+        </tr>
+        {% else %}
+        {% for movie in movies %}
+        <tr>
+            <td>{{ movies[movie].title }}</td>
+            <td>{{ movies[movie].director }}</td>
+            <td>{{ movies[movie].rating }}/5</td>
+            <td>
+                <form>
+                    <button class="btn btn-outline-secondary" type="submit" method="get" formaction="/movies/{{ movies[movie].movie_id }}">View</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+    </tbody>
+</table>
 {% endblock %}
