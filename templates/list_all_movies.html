@@ -3,7 +3,32 @@
 {% block title %}Movie Rating App | All Movies{% endblock %}
 
 {% block body %}
-<h1 class="mb-5">All Movies</h1>
-<p class="mb-3">See our list of movie ratings below</p>
-<!-- TODO: Feature 1 -->
+    <h1 class="mb-5">All Movies</h1>
+    <p class="mb-3">See our list of movie ratings below</p>
+    
+    {% if not movie_listings %}
+        <h1>There are no movie ratings.</h1>
+    {% else %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Director</th>
+                    <th scope="col">Rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for movie in movie_listings.value() %}
+                    <tr>
+                        <th scope="row">{{ movie.movie_id }}</th>
+                        <td>{{ movie.title }}</td>
+                        <td>{{ movie.director }}</td>
+                        <td>{{ movie.rating }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
 {% endblock %}
