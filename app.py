@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, request
+from flask import Flask, redirect, render_template, request,abort
 
 from src.repositories.movie_repository import get_movie_repository
 
@@ -25,8 +25,7 @@ def create_movies_form():
 
 
 @app.post('/movies')
-def create_movie():
-       
+def create_movie(): 
     title = request.form.get('title', '').strip()
     director = request.form.get('director', '').strip()
     rating_str = request.form.get('rating', None)
@@ -73,5 +72,10 @@ def update_movie(movie_id: int):
 
 @app.post('/movies/<int:movie_id>/delete')
 def delete_movie(movie_id: int):
-    # TODO: Feature 6
-    pass
+    movie = movie_repository.get_movie_by_id(movie_id)
+
+    if movie is None:
+        abort(400)
+
+    movie_repository.delete_movie(movie_id)
+    return redirect('/movies')
