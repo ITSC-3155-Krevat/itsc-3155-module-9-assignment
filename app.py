@@ -1,5 +1,4 @@
-from flask import Flask, redirect, render_template
-
+from flask import Flask, redirect, render_template, request
 from src.repositories.movie_repository import get_movie_repository
 
 app = Flask(__name__)
@@ -7,6 +6,14 @@ app = Flask(__name__)
 # Get the movie repository singleton to use throughout the application
 movie_repository = get_movie_repository()
 
+def search_movie():
+    movie = None
+    if request.method == 'POST':
+        title = request.form['title']
+        movie_repo = get_movie_repository()
+        movie = movie_repo.get_movie_by_title(title)
+
+    return render_template('search_movie.html', movie=movie)
 
 @app.get('/')
 def index():
@@ -31,10 +38,15 @@ def create_movie():
     return redirect('/movies')
 
 
-@app.get('/movies/search')
+@app.route('/movies/search', methods=['GET', 'POST'])
 def search_movies():
-    # TODO: Feature 3
-    return render_template('search_movies.html', search_active=True)
+    movie = None
+    if request.method == 'POST':
+        title = request.form['title']
+        movie_repo = get_movie_repository()
+        movie = movie_repo.get_movie_by_title(title)
+    return render_template('search_movies.html', movie=movie, search_active=True)
+
 
 
 @app.get('/movies/<int:movie_id>')
@@ -59,3 +71,7 @@ def update_movie(movie_id: int):
 def delete_movie(movie_id: int):
     # TODO: Feature 6
     pass
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
