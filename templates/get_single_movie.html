@@ -3,6 +3,36 @@
 {% block title %}Movie Rating App | Movie{% endblock %}
 
 {% block body %}
-<h1 class="mb-5"></h1>
+<h1 class="mb-5">View</h1>
 <!-- TODO: Feature 4 -->
+<!-- Use the movie variable passed from app.py to display the signle movie information. -->
+<table class="table table-striped">
+    <tr>
+        <th>Title</th>
+        <th>Director</th>
+        <th>Rating</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    
+    <tr>
+        <td>{{ movie.title }}</td>
+        <td>{{ movie.director }}</td>
+        <td>{{ movie.rating }}</td>
+        <td>
+            <form action="/movies/{{ movie.movie_id }}/edit" method="get"> 
+              <button type="submit" class="btn btn-success" name="edit" value="edit">Edit</button> 
+            </form>
+        </td>
+        <td>
+            <form action="/movies/{{ movie.movie_id }}/delete" method="post"> 
+              <button type="submit" class="btn btn-danger" name="delete" value="delete">Delete</button> 
+            </form>
+        </td>
+        
+    </tr>
+</table>
+
+
+
 {% endblock %}
