@@ -6,4 +6,35 @@
 <h1 class="mb-5">All Movies</h1>
 <p class="mb-3">See our list of movie ratings below</p>
 <!-- TODO: Feature 1 -->
+{% if all_movies|length == 0%}
+<h1>There are currently no movies listed.</h1>
+
+
+{%else %}
+<table class="table table-striped">
+    <tr>
+        <th>ID</th>
+        <th>Movie</th>
+        <th>Director</th>
+        <th>Star Rating</th>
+        <th></th>
+    </tr>
+
+    {% for id, movie in all_movies.items() %}
+    <tr>
+        <td>{{movie.movie_id}}</td>
+        <td>{{movie.title}}</td>
+        <td>{{movie.director}}</td>
+        <td>{{movie.rating}}</td>
+        <td>
+            <form action="/movies/{{movie.movie_id}}" method="get">
+                <button class="btn btn-primary" type="submit">View</button>
+            </form>
+        </td>
+    </tr>
+
+    {%endfor%}
+</table>
+{%endif%}
+
 {% endblock %}

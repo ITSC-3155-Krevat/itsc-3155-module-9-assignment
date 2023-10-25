@@ -3,6 +3,14 @@
 {% block title %}Movie Rating App | Movie{% endblock %}
 
 {% block body %}
-<h1 class="mb-5"></h1>
+<h1 class="mb-5">{{ movie.title }}</h1>
 <!-- TODO: Feature 4 -->
+<p>Director: {{ movie.director }}</p>
+<p>Rating: {{ movie.rating }}</p>
+<form class="mb-2" action="/movies/{{movie.movie_id}}/edit" method="get">
+    <button class="btn btn-primary" type="submit" name="edit">Edit</button>
+</form>
+<form class="mb-2" action="/movies/{{movie.movie_id}}/delete" method="post">
+    <button class="btn btn-primary" type="submit">Delete</button>
+</form>
 {% endblock %}
