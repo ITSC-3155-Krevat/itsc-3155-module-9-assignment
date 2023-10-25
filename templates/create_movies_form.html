@@ -5,5 +5,19 @@
 {% block body %}
 <h1 class="mb-5">Create Movie Rating</h1>
 <p class="mb-3">Create a movie rating below</p>
+
+<form action='/movies' method="post">
+    
+    <Label for="movie_name">What's the name the movie ?</Label>
+    <input type="text" name="movie_name" required>
+    <br>
+    <label for="director">Who directed it ?</label>
+    <input type="text" name="director" required>
+    <br>
+    <label for="rating">What did you rate it ?</label>
+    <input type="number" min="1" max="5"  name="rating" required>
+    <br>
+    <button type="submit">Submit</button>
+</form>
 <!-- TODO: Feature 2 -->
 {% endblock %}
