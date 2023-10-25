@@ -3,6 +3,39 @@
 {% block title %}Movie Rating App | Movie{% endblock %}
 
 {% block body %}
-<h1 class="mb-5"></h1>
+<h1 class="mb-5">Movie info</h1>
 <!-- TODO: Feature 4 -->
+{% if single_movie|length == 0 %}
+<h1>No movie selected</h1>
+{% else %}
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Director</th>
+        <th scope="col">Rating</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="table-success">
+        <td>{{single_movie.title}}</td>
+        <td>{{single_movie.director}}</td>
+        <td>{{single_movie.rating}}</td>
+        <td>
+            <form action="/movies/{{movie_id}}/edit" method="post" class="mt-3">
+            <button type="submit" class="btn btn-secondary">Edit</button>
+        </form>
+        </td>
+        <td>
+            <form action="/movies/{{movie_id}}/delete" method="post" class="mt-3">
+            <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+{% endif %}
+
 {% endblock %}
