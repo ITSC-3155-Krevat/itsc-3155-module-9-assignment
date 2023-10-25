@@ -5,16 +5,20 @@
 {% block body %}
 <h1 class="mb-5">Create Movie Rating</h1>
 <p class="mb-3">Create a movie rating below</p>
-<div class="form-group">
-    <label for="name">Movie Name: </label>
-    <input type="text" name="name" class="form-control" required>
+<form action="/movies" method="post">
+    <div class="form-group">
+    
+        <label for="name">Movie Name: </label>
+        <input type="text" name="name" class="form-control" required>
 
-    <label for="director">Movie's Director: </label>
-    <input type="text" name="director" class="form-control" required>
+        <label for="director">Movie's Director: </label>
+        <input type="text" name="director" class="form-control" required>
 
-    <label for="ratings">Movie's Ratings: </label>
-    <input type="number" name="ratings" class="form-control" required>
-</div>
-<button>Submit the movie</button>
+        <label for="ratings">Movie's Ratings: </label>
+        <input type="number" name="ratings" class="form-control" required>
+    
+    </div>
+    <button>Submit the movie</button>
+</form>
 <!-- TODO: Feature 2 -->
 {% endblock %}

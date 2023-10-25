@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, request
+from flask import Flask, abort, redirect, render_template, request
 
 from src.repositories.movie_repository import get_movie_repository
 
@@ -30,8 +30,16 @@ def create_movie():
     # After creating the movie in the database, we redirect to the list all movies page
     movieName = request.form.get('name')
     movieDirector = request.form.get('director')
-    movieRating = int(request.form.get('ratings'))
-    create_movie(movieName, movieDirector, movieRating)
+    movieRating = float(request.form.get('ratings'))
+    if not (movieName or movieDirector or movieRating):
+        print("Please fill out all the fields")
+        abort(400)
+
+    if movieRating < 0 or movieRating > 5:
+        print("The movie rating should be between 0 to 5")
+        abort(400) 
+    
+    movie_repository.create_movie(movieName, movieDirector, movieRating)
     
     return redirect('/movies')
 
