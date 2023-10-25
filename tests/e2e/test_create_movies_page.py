@@ -27,6 +27,28 @@ def test_add_movie(test_app):
         'rating' : 5
     }, follow_redirects = True)
     assert response.status_code == 200
-    assert 
 
+def test_no_title(test_app):
+    response = test_app.post('/movies', data = {
+        'movie_name' : '',
+        'director' : 'Andrew Adamson',
+        'rating' : 5
+    }, follow_redirects = True)
+    assert response.status_code == 400
+    
+def test_no_director(test_app):
+    response = test_app.post('/movies', data = {
+        'movie_name' : 'Shrek',
+        'director' : '',
+        'rating' : 5
+    }, follow_redirects = True)
+    assert response.status_code == 400
+
+def test_no_rating(test_app):
+    response = test_app.post('/movies', data = {
+        'movie_name' : 'Shrek',
+        'director' : 'tarantino',
+        'rating' : 'd'
+    }, follow_redirects = True)
+    assert response.status_code == 400
 
