@@ -1,5 +1,15 @@
 # TODO: Feature 1
 
+from src.repositories.movie_repository import get_movie_repository
+import pytest
+
+# Loading movies into a test repository
+@pytest.fixture(scope='module')
+def preload_movies():
+    repo = get_movie_repository()
+    repo.create_movie('Call Me By Your Name', 'Luca Guadagnino', 5)
+    repo.create_movie('Moonlight', 'Barry Jenkins', 5)
+
 def test_all_movies_page(test_app, preload_movies):
     # Getting response from test app for list_all_movies page
     response = test_app.get('/movies')
