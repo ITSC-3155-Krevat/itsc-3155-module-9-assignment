@@ -28,7 +28,10 @@ def create_movies_form():
 @app.post('/movies')
 def create_movie():
     # TODO: Feature 2
-    movie_rating = request.form.get('rating')
+    try:
+        movie_rating = int(request.form.get('rating'))
+    except TypeError:
+        abort(400, "Entered bad information into form")
     movie_name = request.form.get('name')
     movie_director = request.form.get('director')
     if movie_rating == None or movie_name.strip() == '' or movie_director.strip() == '':
