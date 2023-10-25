@@ -7,9 +7,9 @@
     <p class="mb-3">See our list of movie ratings below</p>
     
     {% if not movie_listings %}
-        <h1>There are no movie ratings.</h1>
+        <h2>There are currently no movie ratings.</h2>
     {% else %}
-        <table class="table">
+        <table class="table table-bordered">
             <thead>
                 <tr>
                     <th scope="col">ID</th>
@@ -19,9 +19,9 @@
                 </tr>
             </thead>
             <tbody>
-                {% for movie in movie_listings.items() %}
+                {% for id, movie in movie_listings.items() %}
                     <tr>
-                        <th scope="row">{{ movie.movie_id }}</th>
+                        <td>{{ movie.movie_id }}</td>
                         <td>{{ movie.title }}</td>
                         <td>{{ movie.director }}</td>
                         <td>{{ movie.rating }}</td>
