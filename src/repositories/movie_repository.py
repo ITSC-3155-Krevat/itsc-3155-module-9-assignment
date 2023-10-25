@@ -10,11 +10,11 @@ def get_movie_repository():
     class MovieRepository:
         def __init__(self) -> None:
             self._db: dict[int, Movie] = {}
-            self.create_movie("Inception", "Christopher Nolan", 9)
-            self.create_movie("The Shawshank Redemption", "Frank Darabont", 10)
-            self.create_movie("The Matrix", "Lana Wachowski, Lilly Wachowski", 9)
-            self.create_movie("Interstellar", "Christopher Nolan", 9)
-            self.create_movie("The Dark Knight", "Christopher Nolan", 10)
+            self.create_movie("Inception", "Christopher Nolan", 5)
+            self.create_movie("The Shawshank Redemption", "Frank Darabont", 5)
+            self.create_movie("The Matrix", "Lana Wachowski, Lilly Wachowski", 4)
+            self.create_movie("Interstellar", "Christopher Nolan", 4)
+            self.create_movie("The Dark Knight", "Christopher Nolan", 5)
             
         def get_all_movies(self) -> dict[int, Movie]:
             """Simply return all movies from the in-memory database"""
