@@ -13,7 +13,13 @@
     <input type="text" id="movieName" name="movieName" required>
     <button type="submit">Search</button>
 </form>
-<p>Title: {{ movie_title }}</p>
-<p>Rating: {{ movie_rating }}</p>
+<br>
+{% if search_active %}
+    <p>Title: {{movie.title}}</p>
+    <p>Director: {{movie.director}}</p>
+    <p>Rating: {{movie.rating}}</p>
+{% else %}
+{% endif %}
 
 {% endblock %}
+
