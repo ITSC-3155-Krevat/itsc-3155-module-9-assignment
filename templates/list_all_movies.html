@@ -19,7 +19,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for id, movie in movie_listings.items() %}
+                {% for movie in movie_listings.value() %}
                     <tr>
                         <th scope="row">{{ movie.movie_id }}</th>
                         <td>{{ movie.title }}</td>
