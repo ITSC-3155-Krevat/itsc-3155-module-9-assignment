@@ -4,18 +4,19 @@ from src.models.movie import Movie
 
 _movie_repo = None
 
+
 def get_movie_repository():
     global _movie_repo
 
     class MovieRepository:
         def __init__(self) -> None:
             self._db: dict[int, Movie] = {}
-            self.create_movie("Inception", "Christopher Nolan", 5)
-            self.create_movie("The Shawshank Redemption", "Frank Darabont", 5)
-            self.create_movie("The Matrix", "Lana Wachowski, Lilly Wachowski", 4)
-            self.create_movie("Interstellar", "Christopher Nolan", 4)
-            self.create_movie("The Dark Knight", "Christopher Nolan", 5)
-            
+            self.create_movie("Inception", "Christopher Nolan", 9)
+            self.create_movie("The Shawshank Redemption", "Frank Darabont", 10)
+            self.create_movie("The Matrix", "Lana Wachowski, Lilly Wachowski", 9)
+            self.create_movie("Interstellar", "Christopher Nolan", 9)
+            self.create_movie("The Dark Knight", "Christopher Nolan", 10)
+
         def get_all_movies(self) -> dict[int, Movie]:
             """Simply return all movies from the in-memory database"""
             return {**self._db}  # Use the splat operator to make a clone of the dict
@@ -44,13 +45,15 @@ def get_movie_repository():
             # Return the movie instance
             return movie
 
-        def update_movie(self, movie_id: int, title: str, director: str, rating: int) -> Movie:
+        def update_movie(
+            self, movie_id: int, title: str, director: str, rating: int
+        ) -> Movie:
             """Update a movie and return it"""
             # Get a reference to the movie in the dict
             movie = self._db.get(movie_id)
             # Complain if we did not find the movie
             if not movie:
-                raise ValueError(f'movie with id {movie_id} not found')
+                raise ValueError(f"movie with id {movie_id} not found")
             # Update the movie, which is the same object that is in the dict, so the changes stick
             movie.title = title
             movie.director = director
@@ -63,7 +66,7 @@ def get_movie_repository():
             old_movie = self._db.get(movie_id)
             # Complain if we did not find the movie
             if not old_movie:
-                raise ValueError(f'movie with id {movie_id} not found')
+                raise ValueError(f"movie with id {movie_id} not found")
             # Remove the movie from the dict
             del self._db[movie_id]
             return old_movie
@@ -73,7 +76,7 @@ def get_movie_repository():
             self._db = {}
 
     # Singleton to be used in other modules
-    
+
     if _movie_repo is None:
         _movie_repo = MovieRepository()
 
