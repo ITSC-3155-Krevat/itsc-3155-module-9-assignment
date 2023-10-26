@@ -38,3 +38,8 @@ def test_deleted_selected_movie():
     assert result is not None
     result = movies.get_movie_by_title("The Matrix")
     assert isinstance(result, Movie)
+
+def test_error():
+    with pytest.raises(ValueError):
+        movies=get_movie_repository()
+        # movies.delete_movie()
