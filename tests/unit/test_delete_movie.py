@@ -2,44 +2,66 @@
 import pytest
 from src.repositories.movie_repository import get_movie_repository
 from src.models.movie import Movie
-def test_add_movie():
-    movies=get_movie_repository()
-    movies.create_movie("Saw X","Kevin Greutert", 4)
-    result = movies.get_movie_by_title("Saw X")
-    assert result is not None
-    assert result.title == "Saw X"
-    assert isinstance(result, Movie)
 
 def test_delete_movie():
     movies=get_movie_repository()
+    movies.clear_db()
+    movies.create_movie("The Dark Knight", "Christopher Nolan", 10)
     movies.create_movie("Saw X","Kevin Greutert", 4)
     result = movies.get_movie_by_title("Saw X")
-    # assert isinstance(result, Movie)
+    assert isinstance(result, Movie)
     assert result is not None
     assert result.title == "Saw X"
-    # movies.delete_movie()
+    assert len(movies.get_all_movies())==2
+    movies.delete_movie(result.movie_id)
+    assert len(movies.get_all_movies())==1
+    result = movies.get_movie_by_title("Saw X")
     assert not isinstance(result, Movie)
+    movies.clear_db()
 
 def test_deleted_selected_movie():
     movies=get_movie_repository()
+    movies.clear_db()
+    movies.create_movie("Inception", "Christopher Nolan", 9)
+    movies.create_movie("The Shawshank Redemption", "Frank Darabont", 10)
+    movies.create_movie("The Matrix", "Lana Wachowski, Lilly Wachowski", 9)
+    movies.create_movie("Interstellar", "Christopher Nolan", 9)
+    movies.create_movie("The Dark Knight", "Christopher Nolan", 10)
     result = movies.get_movie_by_title("Inception")
-    # assert isinstance(result, Movie)
-    # movies.delete_movie()
+    assert len(movies.get_all_movies())==5
+    assert isinstance(result, Movie)
+    movies.delete_movie(result.movie_id)
+    result = movies.get_movie_by_title("Inception")
     assert not isinstance(result, Movie)
-    assert result is not None
-    result = movies.get_movie_by_title("Dark Knight")
+    assert len(movies.get_all_movies())==4
+    assert result is None
+    result = movies.get_movie_by_title("The Dark Knight")
     assert isinstance(result, Movie)
     assert result is not None
-    result = movies.get_movie_by_title("Intersellar")
+    assert result.title=="The Dark Knight"
+    result = movies.get_movie_by_title("Interstellar")
     assert isinstance(result, Movie)
+    assert result.title=="Interstellar"
     assert result is not None
     result = movies.get_movie_by_title("The Shawshank Redemption")
     assert isinstance(result, Movie)
+    assert result.title=="The Shawshank Redemption"
     assert result is not None
     result = movies.get_movie_by_title("The Matrix")
     assert isinstance(result, Movie)
+    assert result.title=="The Matrix"
+    movies.clear_db()
 
 def test_error():
-    with pytest.raises(ValueError):
-        movies=get_movie_repository()
-        # movies.delete_movie()
+    movies=get_movie_repository()
+    movies.clear_db()
+    movies.create_movie("Inception", "Christopher Nolan", 9)
+    movies.create_movie("The Shawshank Redemption", "Frank Darabont", 10)
+    result = movies.get_movie_by_title("Inception")
+    assert result is not None
+    try:
+        movies.delete_movie(0)
+        assert False
+    except(ValueError):
+        assert True
+    movies.clear_db()
