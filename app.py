@@ -16,7 +16,8 @@ def index():
 @app.get('/movies')
 def list_all_movies():
     # TODO: Feature 1
-    return render_template('list_all_movies.html', list_movies_active=True)
+    all_movies = movie_repository.get_all_movies()
+    return render_template('list_all_movies.html', movies=all_movies, list_movies_active=True)
 
 
 @app.get('/movies/new')
@@ -44,8 +45,19 @@ def create_movie():
 
 @app.get('/movies/search')
 def search_movies():
+    
     # TODO: Feature 3
-    return render_template('search_movies.html', search_active=True)
+    #use form to get moviename
+    movie_name = request.args.get('movieName')
+
+    #find movie object using name
+    movie = movie_repository.get_movie_by_title(movie_name)
+
+    if movie is not None:
+        search_active = True
+    else:
+        search_active = False
+    return render_template('search_movies.html', search_active=search_active, movie=movie)
 
 
 @app.get('/movies/<int:movie_id>')
