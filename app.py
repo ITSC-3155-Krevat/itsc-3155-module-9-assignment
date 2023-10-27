@@ -30,17 +30,18 @@ def create_movie():
     # After creating the movie in the database, we redirect to the list all movies page
     movieName = request.form.get('name')
     movieDirector = request.form.get('director')
-    # movieRating = float(request.form.get('ratings'))
-    if not (movieName or movieDirector):
+    movieRating = request.form.get('ratings')
+    if not (movieName or movieDirector or movieRating):
         print("Please fill out all the fields")
         abort(400)
 
-    movieRating = float(request.form.get('ratings'))
-    if movieRating < 0 or movieRating > 5:
+    # movieRating = float(request.form.get('ratings'))
+    rating = float(movieRating)
+    if rating < 0 or rating > 5:
         print("The movie rating should be between 0 to 5")
         abort(400) 
     
-    movie_repository.create_movie(movieName, movieDirector, movieRating)
+    movie_repository.create_movie(movieName, movieDirector, rating)
     
     return redirect('/movies')
 
