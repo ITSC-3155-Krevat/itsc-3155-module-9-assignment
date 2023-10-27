@@ -5,5 +5,30 @@
 {% block body %}
 <h1 class="mb-5">All Movies</h1>
 <p class="mb-3">See our list of movie ratings below</p>
-<!-- TODO: Feature 1 -->
+{%if movies.get_all_movies()|length == 0 %}
+    <h2 class = "ps-2 pt-2 pb-1">There are no movies saved yet.</h4>
+    <h4 class="ps-4 pt-2">You could be the first to rate something!</h2>
+{%else%}
+<p class="mb-3">See our list of movie ratings below</p>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Title</th>
+        <th scope="col">Director</th>
+        <th scope="col">Rating</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for movie in movies.get_all_movies().values() %}
+        <tr>
+            <th scope="row">{{movie.movie_id}}</th>
+            <td>{{movie.title}}</td>
+            <td>{{movie.director}}</td>
+            <td>{{movie.rating}}</td>
+        </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+  {%endif%}
 {% endblock %}
