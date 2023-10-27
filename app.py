@@ -30,11 +30,12 @@ def create_movie():
     # After creating the movie in the database, we redirect to the list all movies page
     movieName = request.form.get('name')
     movieDirector = request.form.get('director')
-    movieRating = float(request.form.get('ratings'))
-    if not (movieName or movieDirector or movieRating):
+    # movieRating = float(request.form.get('ratings'))
+    if not (movieName or movieDirector):
         print("Please fill out all the fields")
         abort(400)
 
+    movieRating = float(request.form.get('ratings'))
     if movieRating < 0 or movieRating > 5:
         print("The movie rating should be between 0 to 5")
         abort(400) 
