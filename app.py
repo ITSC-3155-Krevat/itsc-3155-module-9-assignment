@@ -68,7 +68,7 @@ def search_movies():
 def get_single_movie(movie_id: int):
     # TODO: Feature 4
     selected_movie = movie_repository.get_movie_by_id(movie_id)
-    return render_template('get_single_movie.html', selected_movie=selected_movie)
+    return render_template('get_single_movie.html', selected_movie=selected_movie, movie_id=movie_id)
 
 
 @app.get('/movies/<int:movie_id>/edit')
