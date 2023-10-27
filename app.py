@@ -46,10 +46,22 @@ def create_movie():
     return redirect('/movies')
 
 
-@app.get('/movies/search')
+@app.route('/movies/search', methods=['GET', 'POST'])
 def search_movies():
-    # TODO: Feature 3
-    return render_template('search_movies.html', search_active=True)
+    rating = None
+    movie_title = None
+
+    if request.method == 'POST':
+        movie_title = request.form.get('movie_title', '').strip()
+
+        if movie_title:
+            # Use the MovieRepository to get a movie by its title
+            movie = movie_repository.get_movie_by_title(movie_title)
+            
+            if movie:
+                rating = movie.rating
+
+    return render_template('search_movies.html', search_active=True, rating=rating, movie_title=movie_title)
 
 
 @app.get('/movies/<int:movie_id>')
