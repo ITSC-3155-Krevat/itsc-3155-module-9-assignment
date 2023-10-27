@@ -2,6 +2,7 @@ from src.repositories.movie_repository import  get_movie_repository
 
 def test_get_all_movies():
     movie_repo = get_movie_repository()
+    movie_repo.clear_db()
     movie_repo.create_movie("The War", "Me", 5.0)
     assert len(movie_repo.get_all_movies()) == 1
     assert isinstance(movie_repo.get_all_movies(), dict)
