@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, request
+from flask import Flask, redirect, render_template, request, abort
 
 from src.repositories.movie_repository import get_movie_repository
 
@@ -7,8 +7,10 @@ app = Flask(__name__)
 # Get the movie repository singleton to use throughout the application
 movie_repository = get_movie_repository()
 
-# movie_repository.create_movie("Dostana", "Ravi", 3)
-# movie_repository.create_movie("dhoom", "abhikesh", 5)
+movie_repository = {
+    1: {"title": "Movie 1", "director": "Director 1", "rating": 4.5},
+    2: {"title": "Movie 2", "director": "Director 2", "rating": 3.8}
+}
 
 
 @app.get('/')
@@ -43,16 +45,43 @@ def search_movies():
 @app.get('/movies/<int:movie_id>')
 def get_single_movie(movie_id: int):
     # TODO: Feature 4
-    # return render_template('get_single_movie.html')
-    
-    movie = movie_repository.get_movie_by_id(movie_id)
-    if movie is None:
-        return render_template('get_single_movie.html')
-    return render_template('get_single_movie.html', movie=movie)
+    single_movie = movie_repository.get_movie_by_id(movie_id)
+    if single_movie is None:
+        abort(400)
+
+    return render_template('get_single_movie.html', single_movie = single_movie, movie_id = movie_id)
+
 
 @app.get('/movies/<int:movie_id>/edit')
 def get_edit_movies_page(movie_id: int):
-    return render_template('edit_movies_form.html')
+    global movie_repository
+    movie_to_edit = movie_repository.get_movie_by_id(movie_id)
+    if movie_to_edit is None:
+        abort(404)
+    return render_template('edit_movies_form.html', movie=movie_to_edit)
+
+# @app.get('/movies/<int:movie_id>')
+# def get_single_movie(movie_id: int):
+#     # Fetch the movie from the repository using its ID
+#     single_movie = movie_repository.get(movie_id)
+
+#     if single_movie:
+#         return render_template('get_single_movie.html', single_movie=single_movie, movie_id=movie_id)
+#     else:
+#         abort(404)
+
+# # Route to edit a movie
+# @app.get('/movies/<int:movie_id>/edit')
+# def get_edit_movies_page(movie_id: int):
+#     movie_to_edit = movie_repository.get(movie_id)
+
+#     if movie_to_edit:
+#         return render_template('edit_movies_form.html', movie=movie_to_edit)
+#     else:
+#         abort(404)
+
+# if __name__ == '__main__':
+#     app.run(debug=True)
 
 
 @app.post('/movies/<int:movie_id>')
