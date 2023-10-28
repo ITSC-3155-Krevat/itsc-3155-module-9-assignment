@@ -16,6 +16,7 @@
                     <th scope="col">Title</th>
                     <th scope="col">Director</th>
                     <th scope="col">Rating</th>
+                    <th scope="col">Function</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,6 +26,9 @@
                         <td>{{ movie.title }}</td>
                         <td>{{ movie.director }}</td>
                         <td>{{ movie.rating }}</td>
+                        <td>
+                            <a href="/movies/{{ id }}">View</a>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

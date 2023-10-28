@@ -6,9 +6,23 @@
 <h1 class="mb-5">View Single Movie</h1>
 <!-- TODO: Feature 4 -->
 <p class="mb-3">View/Edit/Delete a movie below</p>
-    <div class = "mb-3">
-        <label for = "selectingMovie" class = "form-label">Select Movie</label>
-        <input type="dropdown" id="selectingMovie" name="movie_id" class="form-select" aria-label="">
-    </input>
-    </div>
+    <form action="/movies" method="post">
+        <label for = "movieTitle" class = "form-label">Movie Title</label>
+        <input type="text" id="movieTitle" name="movie_title" value="{{ movie.title }}">
+
+        <label for = "movieDirector" class = "form-label">Movie Director</label>
+        <input type="text" id="movieDirector" name="movie_title" value="{{ movie.director }}">
+
+        <label for = "movieRating" class = "form-label">Movie Rating</label>
+        <select id="movieRating" name="movie_title" class="form-select" value="{{ movie.rating }}">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <button type="submit" class="btn btn-primary">Edit</button>
+        <button class="btn btn-primary" href="/movies/delete/{{ movie.movie_id }}">Delete</button>
+    </form>
+    
 {% endblock %}
