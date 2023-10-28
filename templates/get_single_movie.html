@@ -1,8 +1,33 @@
 {% extends '_layout.html' %}
 
-{% block title %}Movie Rating App | Movie{% endblock %}
+{% block title %}Movie Rating App | {{ single_movie.title }}{% endblock %}
 
 {% block body %}
-<h1 class="mb-5"></h1>
-<!-- TODO: Feature 4 -->
+    <h1 class="mb-5">Movie Details</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Director</th>
+            <th scope="col">Rating</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="table-success">
+            <td>{{ single_movie.title }}</td>
+            <td>{{ single_movie.director }}</td>
+            <td>{{ single_movie.rating }}</td>
+            <td>
+                <form action="/movies/{{ single_movie.id }}/edit" method="post" class="mt-3">
+                    <button type="submit" class="btn btn-secondary">Edit</button>
+                </form>
+            </td>
+            <td>
+                <form action="/movies/{{ single_movie.id }}/delete" method="post" class="mt-3">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 {% endblock %}
