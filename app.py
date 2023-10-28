@@ -1,4 +1,5 @@
-from flask import Flask, redirect, render_template
+from flask import Flask, redirect, render_template, request, abort
+
 
 from src.repositories.movie_repository import get_movie_repository
 
@@ -16,7 +17,8 @@ def index():
 @app.get('/movies')
 def list_all_movies():
     # TODO: Feature 1
-    return render_template('list_all_movies.html', list_movies_active=True)
+    movie_listings = movie_repository.get_all_movies()
+    return render_template('list_all_movies.html',  movie_listings=movie_listings, list_movies_active=True)
 
 
 @app.get('/movies/new')
@@ -27,20 +29,33 @@ def create_movies_form():
 @app.post('/movies')
 def create_movie():
     # TODO: Feature 2
+    try:
+        movie_rating = int(request.form.get('rating'))
+    except TypeError:
+        abort(400, "Entered bad information into form")
+    movie_name = request.form.get('name')
+    movie_director = request.form.get('director')
+    if movie_rating == None or movie_name.strip() == '' or movie_director.strip() == '':
+        abort(400, "Entered bad information into form") 
+    movie_repository.create_movie(title=movie_name, director=movie_director, rating=movie_rating)
     # After creating the movie in the database, we redirect to the list all movies page
     return redirect('/movies')
 
-
 @app.get('/movies/search')
 def search_movies():
-    # TODO: Feature 3
-    return render_template('search_movies.html', search_active=True)
+    movie = None
+    if request.args.get('movie_title'):
+        movie_title = request.args.get('movie_title')
+        movie = movie_repository.get_movie_by_title(movie_title)
+    
+    return render_template('search_movies.html', search_active=True, movie=movie)
 
 
 @app.get('/movies/<int:movie_id>')
 def get_single_movie(movie_id: int):
     # TODO: Feature 4
-    return render_template('get_single_movie.html')
+    the_movie = movie_repository.get_movie_by_id(movie_id)
+    return render_template('get_single_movie.html', movie = the_movie)
 
 
 @app.get('/movies/<int:movie_id>/edit')

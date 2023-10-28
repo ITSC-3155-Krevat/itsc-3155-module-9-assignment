@@ -5,5 +5,19 @@
 {% block body %}
 <h1 class="mb-5">Search Movie Ratings</h1>
 <p class="mb-3">Search for a movie rating below</p>
-<!-- TODO: Feature 3 -->
+<form action="/movies/search" method="get">
+    <div class="form-group">
+        <label for="movie_title">Movie Title</label>
+        <input type="text" class="form-control" id="movie_title" name="movie_title" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+]{% if movie %}
+    <h2>Movie Details</h2>
+    <p>Title: {{ movie.title }}</p>
+    <p>Director: {{ movie.director }}</p>
+    <p>Rating: {{ movie.rating }}</p>
+{% elif request.args.get('movie_title') %}
+    <p>Movie not found!</p>
+{% endif %}
 {% endblock %}
