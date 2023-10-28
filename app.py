@@ -1,5 +1,6 @@
 from flask import Flask, redirect, render_template, request, abort
 
+
 from src.repositories.movie_repository import get_movie_repository
 
 app = Flask(__name__)
@@ -28,7 +29,10 @@ def create_movies_form():
 @app.post('/movies')
 def create_movie():
     # TODO: Feature 2
-    movie_rating = request.form.get('rating')
+    try:
+        movie_rating = int(request.form.get('rating'))
+    except TypeError:
+        abort(400, "Entered bad information into form")
     movie_name = request.form.get('name')
     movie_director = request.form.get('director')
     if movie_rating == None or movie_name.strip() == '' or movie_director.strip() == '':
@@ -37,11 +41,14 @@ def create_movie():
     # After creating the movie in the database, we redirect to the list all movies page
     return redirect('/movies')
 
-
 @app.get('/movies/search')
 def search_movies():
-    # TODO: Feature 3
-    return render_template('search_movies.html', search_active=True)
+    movie = None
+    if request.args.get('movie_title'):
+        movie_title = request.args.get('movie_title')
+        movie = movie_repository.get_movie_by_title(movie_title)
+    
+    return render_template('search_movies.html', search_active=True, movie=movie)
 
 
 @app.get('/movies/<int:movie_id>')
