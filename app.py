@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template
+from flask import Flask, redirect, render_template, session
 
 from src.repositories.movie_repository import get_movie_repository
 
@@ -7,11 +7,9 @@ app = Flask(__name__)
 # Get the movie repository singleton to use throughout the application
 movie_repository = get_movie_repository()
 
-
 @app.get('/')
 def index():
     return render_template('index.html')
-
 
 @app.get('/movies')
 def list_all_movies():
@@ -40,13 +38,11 @@ def search_movies():
 @app.get('/movies/<int:movie_id>')
 def get_single_movie(movie_id: int):
     # TODO: Feature 4
-    if movie_id in movie_repository._db:
-        print(f'Movie ID: {movie_id} found.')
-        #movie_repository.get_movie_by_id(movie_id)
-        #return redirect('/movies/<movie_id>', movie_repository)
-    else: 
-        print(f'Movie ID: {movie_id} not found.')
-    return render_template('get_single_movie.html')
+    for movie in session.get('movies', []):
+        if movie.get('movie_id') == movie_id:
+            return render_template('get_single_movie.html', movies=session.get('movies', []), movie_id=movie_id)
+    return render_template('get_single_movie.html', movies=False, error_status=400, error_message=f"Movie with id: {movie_id} not found.")
+    
 
 
 @app.get('/movies/<int:movie_id>/edit')
