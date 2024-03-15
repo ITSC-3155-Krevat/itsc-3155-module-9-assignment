@@ -36,10 +36,16 @@ def search_movies():
     # TODO: Feature 3
     return render_template('search_movies.html', search_active=True)
 
-
+#Anessa's get single movie feature
 @app.get('/movies/<int:movie_id>')
 def get_single_movie(movie_id: int):
     # TODO: Feature 4
+    if movie_id in movie_repository._db:
+        print(f'Movie ID: {movie_id} found.')
+        #movie_repository.get_movie_by_id(movie_id)
+        #return redirect('/movies/<movie_id>', movie_repository)
+    else: 
+        print(f'Movie ID: {movie_id} not found.')
     return render_template('get_single_movie.html')
 
 

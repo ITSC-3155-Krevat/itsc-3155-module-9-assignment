@@ -4,5 +4,16 @@
 
 {% block body %}
 <h1 class="mb-5"></h1>
-<!-- TODO: Feature 4 -->
+<!-- Anessa's Get Single Movie: Feature 4 -->
+{% if movie_repository %}
+    {% for movie, data in movie_repository %}
+    <div container="single-movie-block">
+        <h2 name="title">Movie: {{ data["title"] }}</h2>
+        <h3 name="director">Director {{ data["director"] }}</h3>
+        <p name="rating">Rating: {{ data["rating"] }}</p>
+    </div>
+    {% endfor %}
+{% else %}
+    <h1>Movie ID Not Found</h1>
+{% endif %}
 {% endblock %}
