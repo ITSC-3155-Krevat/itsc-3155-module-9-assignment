@@ -13,10 +13,12 @@ def index():
     return render_template('index.html')
 
 
-@app.get('/movies')
+@app.route('/movies')
 def list_all_movies():
-    # TODO: Feature 1
-    return render_template('list_all_movies.html', list_movies_active=True)
+    movies_dict = movie_repository.get_all_movies()
+    movies_list = list(movies_dict.values())
+    return render_template('list_all_movies.html', movies=movies_list)
+
 
 
 @app.get('/movies/new')
