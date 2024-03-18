@@ -1,12 +1,14 @@
-from flask import Flask, redirect, render_template
-
+from flask import Flask, redirect, render_template, request
+from src.models.movie import Movie
 from src.repositories.movie_repository import get_movie_repository
 
 app = Flask(__name__)
 
 # Get the movie repository singleton to use throughout the application
 movie_repository = get_movie_repository()
-
+movie_repository.create_movie('Spiderman', 'Landon Nalewaja', 5)
+movie = movie_repository.get_movie_by_title('Spiderman')
+print(movie.movie_id)
 
 @app.get('/')
 def index():
@@ -26,9 +28,18 @@ def create_movies_form():
 
 @app.post('/movies')
 def create_movie():
-    # TODO: Feature 2
-    # After creating the movie in the database, we redirect to the list all movies page
+    # Extract movie details from the form submission
+    title = request.form.get('title')
+    director = request.form.get('director')
+    rating = int(request.form.get('rating'))
+
+    # Create a new movie in the repository
+    movie_repository.create_movie(title, director, rating)
+
+    # Redirect back to the list of all movies after creating the movie
     return redirect('/movies')
+
+
 
 
 @app.get('/movies/search')
