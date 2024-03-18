@@ -6,9 +6,7 @@ app = Flask(__name__)
 
 # Get the movie repository singleton to use throughout the application
 movie_repository = get_movie_repository()
-movie_repository.create_movie('Spiderman', 'Landon Nalewaja', 5)
-movie = movie_repository.get_movie_by_title('Spiderman')
-print(movie.movie_id)
+
 
 @app.get('/')
 def index():
