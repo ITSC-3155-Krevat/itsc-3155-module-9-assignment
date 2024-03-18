@@ -9,8 +9,6 @@ movie_repository = get_movie_repository()
 movie_repository.create_movie('Spiderman', 'Ronni Elhadidy', 5)
 movie = movie_repository.get_movie_by_title('Spiderman')
 print(movie.movie_id)
-if __name__ == "__main__":
-    app.run(debug=True)
 
 @app.get('/')
 def index():
