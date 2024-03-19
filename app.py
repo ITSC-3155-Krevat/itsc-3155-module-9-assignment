@@ -45,11 +45,22 @@ def create_movie():
 
 
 
-
-@app.get('/movies/search')
+@app.route('/movies/search', methods=['GET', 'POST'])
 def search_movies():
     # TODO: Feature 3
-    return render_template('search_movies.html', search_active=True)
+    if request.method == 'POST':
+        search_query = request.form['query']
+    else:
+        search_query = request.args.get('query', '')
+
+    movie = movie_repository.get_movie_by_title(search_query)
+    rating = None
+
+    if movie:
+        rating = movie_repository.get_movie_by_title(movie.title)
+
+    return render_template('search_movies.html', movie=movie, rating=rating, search_active=True)
+
 
 
 @app.get('/movies/<int:movie_id>')
