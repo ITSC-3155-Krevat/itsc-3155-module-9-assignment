@@ -6,6 +6,12 @@
 <h1 class="mb-5">Create Movie Rating</h1>
 <p class="mb-3">Create a movie rating below</p>
 
+{% if error %}
+<div class="alert alert-danger" role="alert">
+    {{ error }}
+</div>
+{% endif %}
+
 <!-- Cindy's Save/ Create function (2) -->
 <style>
     .form-group {

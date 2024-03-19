@@ -20,6 +20,11 @@ def create_movies_form():
         director = request.form.get('director')
         rating = request.form.get('rating')
 
+        # Check if the movie already exists -- our test
+        if any(movie['title'] == title and movie['director'] == director for movie in session.get('movies', [])):
+            error_message = "Movie already exists!"
+            return render_template('create_movies_form.html', create_rating_active=True, error=error_message)
+        
         # Create a new movie 
         new_movie = {'title': title, 'director': director, 'rating': rating}
         # Get the list of movies
