@@ -1,13 +1,12 @@
-from flask import Flask, redirect, render_template, request
+from flask import Flask, redirect, render_template, request, url_for
 
 from src.repositories.movie_repository import get_movie_repository
+from src.models.movie import Movie
 
 app = Flask(__name__)
 
 # Get the movie repository singleton to use throughout the application
 movie_repository = get_movie_repository()
-
-
 
 @app.get('/')
 def index():
@@ -16,8 +15,14 @@ def index():
 
 @app.get('/movies')
 def list_all_movies():
-    # TODO: Feature 1
-    return render_template('list_all_movies.html', list_movies_active=True)
+    movie_repo = get_movie_repository()
+    all_movies = movie_repo.get_all_movies()
+    movies_list = [
+        {"id": movie_id, "title": movie.title, "director": movie.director, "rating": movie.rating}
+        for movie_id, movie in all_movies.items()
+    ]
+
+    return render_template('list_all_movies.html', list_movies_active=True, movies=movies_list)
 
 
 @app.get('/movies/new')
@@ -27,9 +32,17 @@ def create_movies_form():
 
 @app.post('/movies')
 def create_movie():
-    # TODO: Feature 2
-    # After creating the movie in the database, we redirect to the list all movies page
+    # Extract movie details from the form submission
+    title = request.form.get('title')
+    director = request.form.get('director')
+    rating = int(request.form.get('rating'))
+
+    # Create a new movie in the repository
+    movie_repository.create_movie(title, director, rating)
+
+    # Redirect back to the list of all movies after creating the movie
     return redirect('/movies')
+
 
 
 @app.route('/movies/search', methods=['GET', 'POST'])
@@ -53,7 +66,11 @@ def search_movies():
 @app.get('/movies/<int:movie_id>')
 def get_single_movie(movie_id: int):
     # TODO: Feature 4
-    return render_template('get_single_movie.html')
+    # when movie in movie page is clicked, get request is made
+    # this sends the movie_id 
+    
+    movie = movie_repository.get_movie_by_id(movie_id)
+    return render_template('get_single_movie.html', movie=movie)
 
 
 @app.get('/movies/<int:movie_id>/edit')
@@ -71,4 +88,5 @@ def update_movie(movie_id: int):
 @app.post('/movies/<int:movie_id>/delete')
 def delete_movie(movie_id: int):
     # TODO: Feature 6
-    pass
+    movie_repository.delete_movie(movie_id)
+    return render_template('list_all_movies.html')
