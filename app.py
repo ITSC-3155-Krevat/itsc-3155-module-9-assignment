@@ -92,16 +92,17 @@ def update_movie(movie_id: int):
     director = request.form['director']
     rating = request.form.get('rating', type=int)
     
-    updated_movie = {
-        'title': title,
-        'director': director,
-        'rating': rating
-    }
+    # updated_movie = {
+    #     'title': title,
+    #     'director': director,
+    #     'rating': rating,
+    #     'movie_id': movie_id
+    # }
     
-    movie_repository.update_movie(movie_id, updated_movie)
+    movie_repository.update_movie(movie_id, title, director, rating)
     return redirect(f'/movies/{movie_id}')
 
-
+ 
 @app.post('/movies/<int:movie_id>/delete')
 def delete_movie(movie_id: int):
     # TODO: Feature 6
