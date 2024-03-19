@@ -32,8 +32,18 @@ def create_movies_form():
 
 @app.post('/movies')
 def create_movie():
-    # TODO: Feature 2
+    # Extract movie details from the form submission
+    title = request.form.get('title')
+    director = request.form.get('director')
+    rating = int(request.form.get('rating'))
+
+    # Create a new movie in the repository
+    movie_repository.create_movie(title, director, rating)
+
+    # Redirect back to the list of all movies after creating the movie
     return redirect('/movies')
+
+
 
 
 @app.get('/movies/search')
