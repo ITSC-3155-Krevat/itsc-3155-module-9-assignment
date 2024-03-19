@@ -8,6 +8,7 @@ app = Flask(__name__)
 movie_repository = get_movie_repository()
 
 
+
 @app.get('/')
 def index():
     return render_template('index.html')
@@ -40,10 +41,13 @@ def search_movies():
         search_query = request.args.get('query', '')
 
     movie = movie_repository.get_movie_by_title(search_query)
-    print("Searched Movie:", movie)
+    rating = None
 
+    if movie:
+        rating = movie_repository.get_movie_by_title(movie.title)
 
-    return render_template('search_movies.html', search_active=True)
+    return render_template('search_movies.html', movie=movie, rating=rating, search_active=True)
+
 
 
 @app.get('/movies/<int:movie_id>')
