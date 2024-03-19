@@ -63,4 +63,5 @@ def update_movie(movie_id: int):
 @app.post('/movies/<int:movie_id>/delete')
 def delete_movie(movie_id: int):
     # TODO: Feature 6
-    pass
+    movie_repository.delete_movie(movie_id)
+    return render_template('list_all_movies.html')
