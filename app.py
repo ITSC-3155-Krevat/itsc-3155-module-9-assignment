@@ -6,6 +6,7 @@ app = Flask(__name__)
 movies = []
 next_movie_id = 1
 
+movie_repository = get_movie_repository()
 
 @app.get('/')
 def index():
@@ -44,6 +45,7 @@ def create_movies_form():
     return render_template('create_movies_form.html', create_rating_active=True)
 
 
+# Varsha's search movie function
 @app.get('/movies/search')
 def search_movies_form():
     return render_template('search_movies.html', search_active=True)
