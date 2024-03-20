@@ -9,6 +9,7 @@ movie_repository = get_movie_repository()
 movies = []
 next_movie_id = 1
 
+
 @app.get('/')
 def index():
     return render_template('index.html')
