@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, session
+from flask import Flask, redirect, render_template, request
 
 from src.repositories.movie_repository import get_movie_repository
 
@@ -37,11 +37,13 @@ def search_movies():
 #Anessa's get single movie feature
 @app.get('/movies/<int:movie_id>')
 def get_single_movie(movie_id: int):
-    # TODO: Feature 4
-    for movie in session.get('movies', []):
+    # Feature 4
+    for movie in movies:
         if movie.get('movie_id') == movie_id:
-            return render_template('get_single_movie.html', movies=session.get('movies', []), movie_id=movie_id)
-    return render_template('get_single_movie.html', movies=False, error_status=400, error_message=f"Movie with id: {movie_id} not found.")
+            return render_template('get_single_movie.html', movie=movie, movie_id=movie_id)
+    response = f"Movie with id: {movie_id} not found."
+    status_code = 400
+    return render_template('get_single_movie.html', movies=False, error_status=status_code, error_message=response)
     
 
 

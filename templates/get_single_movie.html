@@ -36,21 +36,18 @@
         background-color: cornflowerblue;
     }
 </style>
-
-{% if movies %}
-    {% for movie in movies %}
-        {% if movie['movie_id'] == movie_id %}
-            <div class="single-movie-block">
-                <h2 name="title">{{ movie["title"] }}</h2>
-                <h4 name="director">Director {{ movie["director"] }}</h4>
-                <p name="rating">Rating: <span class="italic-rating">{{ movie["rating"] }}/5 stars</span></p>
-                <form class="form-buttons">
-                    <button type="submit" name="edit" formaction="/movies/{{ movie_id }}/edit" formmethod="GET">Edit</button>
-                    <button type="submit" name="delete" formaction="/movies/{{ movie_id }}/delete" formmethod="POST">Delete</button>
-                </form>
-            </div>
-        {% endif %}
-    {% endfor %}
+{% if movie %}
+    {% if movie.movie_id == movie_id %}
+        <div class="single-movie-block">
+            <h2 name="title">{{ movie.title }}</h2>
+            <h4 name="director">Director {{ movie.director }}</h4>
+            <p name="rating">Rating: <span class="italic-rating">{{ movie.rating }}/5 stars</span></p>
+            <form class="form-buttons">
+                <button type="submit" name="edit" formaction="/movies/{{ movie.movie_id }}/edit" formmethod="GET">Edit</button>
+                <button type="submit" name="delete" formaction="/movies/{{ movie.movie_id }}/delete" formmethod="POST">Delete</button>
+            </form>
+        </div>
+    {% endif %}
 {% else %}
     <h1>{{ error_status }} Error</h1>
     <h4>{{ error_message }}</h4>
