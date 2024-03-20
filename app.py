@@ -1,4 +1,8 @@
 from flask import Flask, redirect, render_template, request
+<<<<<<< HEAD
+
+=======
+>>>>>>> fb9926e66d17522172951edd549ceda956b8230e
 from src.repositories.movie_repository import get_movie_repository
 
 app = Flask(__name__)
@@ -96,7 +100,16 @@ def update_movie(movie_id: int):
     return redirect(f'/movies/{movie_id}')
 
 
+# Nhu's delete movie function
 @app.post('/movies/<int:movie_id>/delete')
 def delete_movie(movie_id: int):
+<<<<<<< HEAD
+    # Feature 6
+    for movie in movies:
+        if movie['movie_id'] == movie_id:
+            movies.remove(movie)
+    return redirect('/movies', movies=movies)
+=======
     # TODO: Feature 6
     pass
+>>>>>>> fb9926e66d17522172951edd549ceda956b8230e
