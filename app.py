@@ -1,8 +1,4 @@
 from flask import Flask, redirect, render_template, request
-<<<<<<< HEAD
-
-=======
->>>>>>> fb9926e66d17522172951edd549ceda956b8230e
 from src.repositories.movie_repository import get_movie_repository
 
 app = Flask(__name__)
@@ -82,10 +78,16 @@ def search_movies():
     else:
         return render_template('search_movies.html', not_found=True, search_active=True)
 
+#Anessa's get single movie feature
 @app.get('/movies/<int:movie_id>')
 def get_single_movie(movie_id: int):
-    # TODO: Feature 4
-    return render_template('get_single_movie.html')
+    # Feature 4
+    for movie in movies:
+        if movie.get('movie_id') == movie_id:
+            return render_template('get_single_movie.html', movie=movie, movie_id=movie_id)
+    response = f"Movie with id: {movie_id} not found."
+    status_code = 400
+    return render_template('get_single_movie.html', movies=False, error_status=status_code, error_message=response)
 
 
 @app.get('/movies/<int:movie_id>/edit')
@@ -103,13 +105,8 @@ def update_movie(movie_id: int):
 # Nhu's delete movie function
 @app.post('/movies/<int:movie_id>/delete')
 def delete_movie(movie_id: int):
-<<<<<<< HEAD
     # Feature 6
     for movie in movies:
         if movie['movie_id'] == movie_id:
             movies.remove(movie)
     return redirect('/movies', movies=movies)
-=======
-    # TODO: Feature 6
-    pass
->>>>>>> fb9926e66d17522172951edd549ceda956b8230e
