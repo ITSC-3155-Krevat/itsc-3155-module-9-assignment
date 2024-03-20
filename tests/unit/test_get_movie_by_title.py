@@ -14,13 +14,13 @@ def test_search_movies(client):
 
 def test_search_movies_rating(client):
     response = client.post('/movies/search', data = {
-        'title': 'Titanic', 
-        'director': 'James Cameron',
+        'title': 'new', 
+        'director': 'test director',
         'rating': '5'
     }, follow_redirects=True)
 
     assert response.status_code == 200
-    #assert b"Titanic" in response.data
+    assert b"new" in response.data
     assert b"5" in response.data
 
 def test_movie_not_found(client):
