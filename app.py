@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, request
+from flask import Flask, redirect, render_template, request, session
 
 from src.repositories.movie_repository import get_movie_repository
 
@@ -31,19 +31,22 @@ def create_movie():
     return redirect('/movies')
 
 # Varsha's search movie function
-@app.route('/movies/search', methods=['GET', 'POST'])
+@app.get('/movies/search')
+def search_movies_form():
+    return render_template('search_movies.html', search_active=True)
+
+# Varsha's search movie function
+@app.post('/movies/search')
 def search_movies():
-    # TODO: Feature 3
-    if request.method == 'POST':
-        title = request.form.get('title')
-        movie = movie_repository.get_movie_by_title(title)
-        if movie:
-            return render_template('search_movies.html', movie=movie, search_active=True)
-        else:
-            return render_template('search_movies.html', not_found=True, search_active=True)
-    else: 
-        return render_template('search_movies.html', search_active=True)
+    title = request.form.get('title')
+    movies = session.get('movies', [])
     
+    movies_found = [movie for movie in movies if movie['title'] == title]
+    if movies_found:
+        return render_template('search_movies.html', movies=movies_found, search_active=True)
+    else:
+        return render_template('search_movies.html', not_found=True, search_active=True)
+        
 @app.get('/movies/<int:movie_id>')
 def get_single_movie(movie_id: int):
     # TODO: Feature 4
