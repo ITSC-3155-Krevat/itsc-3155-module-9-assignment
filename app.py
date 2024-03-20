@@ -1,70 +1,44 @@
-from flask import Flask, redirect, render_template, request, session
-
-from src.repositories.movie_repository import get_movie_repository
+from flask import Flask, redirect, render_template, request
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key' 
 
-# Get the movie repository singleton to use throughout the application
-movie_repository = get_movie_repository()
+movies = []
+next_movie_id = 1
 
-@app.get('/')
+@app.route('/')
 def index():
     return render_template('index.html')
 
-# Cindy's save function
+# feature save/ create (2) -- cindy
 @app.route('/movies/new', methods=['GET', 'POST'])
 def create_movies_form():
+    global next_movie_id
+    
     if request.method == 'POST':
         title = request.form.get('title')
         director = request.form.get('director')
         rating = request.form.get('rating')
+        movie_id = next_movie_id
+        next_movie_id += 1
 
-        # Check if the movie already exists -- our test
-        if any(movie['title'] == title and movie['director'] == director for movie in session.get('movies', [])):
+        #test -- checks if movie exists already
+        if any(movie['title'] == title and movie['director'] == director for movie in movies):
             error_message = "Movie already exists!"
             return render_template('create_movies_form.html', create_rating_active=True, error=error_message)
         
-        # Create a new movie 
-        new_movie = {'title': title, 'director': director, 'rating': rating}
-        # Get the list of movies
-        movies = session.get('movies', [])
-        # Add new movie to the list of movies
+        #create a new movie
+        new_movie = {'movie_id': movie_id, 'title': title, 'director': director, 'rating': rating}
+        # add new movie to the list
         movies.append(new_movie)
-        # Update the movies list
-        session['movies'] = movies
-        # Redirect to the list all movies page after creating a new movie
+        
         return redirect('/movies')
     
     else:
-        return render_template('create_movies_form.html', create_rating_active=True)
+        return render_template('create_movies_form.html', create_rating_active=True, movie_id=next_movie_id)
 
-# Cindy's Save movie function
-@app.post('/movies')
-def create_movie():
-    title = request.form.get('title')
-    director = request.form.get('director')
-    rating = request.form.get('rating')
-
-    # Create a new movie 
-    new_movie = {'title': title, 'director': director, 'rating': rating}
-    # Get the list of movies
-    movies = session.get('movies', [])
-    # Add new movie to the list of movies
-    movies.append(new_movie)
-    # Update the movies list 
-    session['movies'] = movies
-
-    return redirect('/movies')
-
-#Cindy's Save function
-@app.get('/movies')
+@app.route('/movies')
 def list_all_movies():
-    # Get the list of movies from session
-    movies = session.get('movies', [])
-
     return render_template('list_all_movies.html', movies=movies)
-
 
 
 @app.get('/movies/search')
