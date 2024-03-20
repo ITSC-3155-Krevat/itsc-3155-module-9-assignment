@@ -3,24 +3,30 @@ from src.repositories.movie_repository import get_movie_repository
 
 app = Flask(__name__)
 
+
+# Get the movie repository singleton to use throughout the application
+movie_repository = get_movie_repository()
 movies = []
 next_movie_id = 1
-
 
 @app.get('/')
 def index():
     return render_template('index.html')
 
-
+#Jaidens List All Movies Function
 @app.get('/movies')
 def list_all_movies():
-    # TODO: Feature 1
-    return render_template('list_all_movies.html', list_movies_active=True)
+    
+    moviesList = movie_repository.get_all_movies()
+    for i in moviesList:
+        movie = movie_repository.get_movie_by_id(i)
+        movies.append(movie)
+    return render_template('list_all_movies.html', movies = movies)
 
 
-@app.get('/movies/new')
+@app.route('/movies/new')
 def create_movies_form():
-    return render_template('create_movies_form.html', create_rating_active=True)
+     return render_template('create_movies_form.html', create_rating_active=True)
 
 
 @app.post('/movies')
