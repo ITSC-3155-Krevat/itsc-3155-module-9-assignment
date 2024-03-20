@@ -1,4 +1,5 @@
 from flask import Flask, redirect, render_template, request
+from src.repositories.movie_repository import get_movie_repository
 
 app = Flask(__name__)
 
@@ -11,7 +12,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/movies')
+@app.get('/movies')
 def list_all_movies():
     return render_template('list_all_movies.html', movies=movies)
 
@@ -44,9 +45,18 @@ def create_movies_form():
 
 
 @app.get('/movies/search')
-def search_movies():
-    # TODO: Feature 3
+def search_movies_form():
     return render_template('search_movies.html', search_active=True)
+
+# Varsha's search movie function
+@app.post('/movies/search')
+def search_movies():
+    title = request.form.get('title')
+    movies_found = [movie for movie in movies if movie['title'] == title]
+    if movies_found:
+        return render_template('search_movies.html', movies_found=movies_found, search_active=True)
+    else:
+        return render_template('search_movies.html', not_found=True, search_active=True)
 
 
 @app.get('/movies/<int:movie_id>')
