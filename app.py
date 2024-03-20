@@ -45,8 +45,8 @@ def get_single_movie(movie_id: int):
 
 @app.get('/movies/<int:movie_id>/edit')
 def get_edit_movies_page(movie_id: int):
-    return render_template('edit_movies_form.html')
-
+    movie = movie_repository.get_movie_by_id(movie_id)
+    return render_template('edit_movies_form.html', movie=movie)
 
 @app.post('/movies/<int:movie_id>')
 def update_movie(movie_id: int):
