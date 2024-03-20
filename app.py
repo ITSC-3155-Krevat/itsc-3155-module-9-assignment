@@ -27,7 +27,6 @@ def create_movies_form():
 @app.post('/movies')
 def create_movie():
     # TODO: Feature 2
-    movie_repository.create_movie("My_movie", "Myself", 80)
     return redirect('/movies')
 
 
