@@ -1,9 +1,11 @@
 from flask import Flask, redirect, render_template, request
-
 from src.repositories.movie_repository import get_movie_repository
 
 app = Flask(__name__)
 
+
+# Get the movie repository singleton to use throughout the application
+movie_repository = get_movie_repository()
 movies = []
 next_movie_id = 1
 
@@ -11,15 +13,20 @@ next_movie_id = 1
 def index():
     return render_template('index.html')
 
+#Jaidens List All Movies Function
 @app.get('/movies')
 def list_all_movies():
-    # TODO: Feature 1
-    return render_template('list_all_movies.html', list_movies_active=True)
+    
+    moviesList = movie_repository.get_all_movies()
+    for i in moviesList:
+        movie = movie_repository.get_movie_by_id(i)
+        movies.append(movie)
+    return render_template('list_all_movies.html', movies = movies)
 
 
-@app.get('/movies/new')
+@app.route('/movies/new')
 def create_movies_form():
-    return render_template('create_movies_form.html', create_rating_active=True)
+     return render_template('create_movies_form.html', create_rating_active=True)
 
 
 @app.post('/movies')
@@ -51,6 +58,16 @@ def create_movie():
     return redirect('/movies')
 
 
+@app.get('/movies/new')
+def create_movies_form():
+    return render_template('create_movies_form.html', create_rating_active=True)
+
+
+# Varsha's search movie function
+@app.get('/movies/search')
+def search_movies_form():
+    return render_template('search_movies.html', search_active=True)
+
 # Varsha's search movie function
 @app.post('/movies/search')
 def search_movies():
@@ -60,7 +77,6 @@ def search_movies():
         return render_template('search_movies.html', movies_found=movies_found, search_active=True)
     else:
         return render_template('search_movies.html', not_found=True, search_active=True)
-
 
 #Anessa's get single movie feature
 @app.get('/movies/<int:movie_id>')
@@ -86,7 +102,11 @@ def update_movie(movie_id: int):
     return redirect(f'/movies/{movie_id}')
 
 
+# Nhu's delete movie function
 @app.post('/movies/<int:movie_id>/delete')
 def delete_movie(movie_id: int):
-    # TODO: Feature 6
-    pass
+    # Feature 6
+    for movie in movies:
+        if movie['movie_id'] == movie_id:
+            movies.remove(movie)
+    return redirect('/movies', movies=movies)
