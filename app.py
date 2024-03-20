@@ -1,50 +1,62 @@
 from flask import Flask, redirect, render_template, request
+from src.repositories.movie_repository import get_movie_repository
 
 app = Flask(__name__)
 
 movies = []
 next_movie_id = 1
 
-@app.route('/')
+
+@app.get('/')
 def index():
     return render_template('index.html')
 
-# feature save/ create (2) -- cindy
-@app.route('/movies/new', methods=['GET', 'POST'])
-def create_movies_form():
-    global next_movie_id
-    
-    if request.method == 'POST':
-        title = request.form.get('title')
-        director = request.form.get('director')
-        rating = request.form.get('rating')
-        movie_id = next_movie_id
-        next_movie_id += 1
 
-        #test -- checks if movie exists already
-        if any(movie['title'] == title and movie['director'] == director for movie in movies):
-            error_message = "Movie already exists!"
-            return render_template('create_movies_form.html', create_rating_active=True, error=error_message)
-        
-        #create a new movie
-        new_movie = {'movie_id': movie_id, 'title': title, 'director': director, 'rating': rating}
-        # add new movie to the list
-        movies.append(new_movie)
-        
-        return redirect('/movies')
-    
-    else:
-        return render_template('create_movies_form.html', create_rating_active=True, movie_id=next_movie_id)
-
-@app.route('/movies')
+@app.get('/movies')
 def list_all_movies():
     return render_template('list_all_movies.html', movies=movies)
 
+# create/ save feature cindy
+@app.post('/movies/new')
+def create_movie():
+    global next_movie_id
+
+    title = request.form.get('title')
+    director = request.form.get('director')
+    rating = request.form.get('rating')
+
+    # Check if the movie already exists -- test
+    if any(movie['title'] == title and movie['director'] == director for movie in movies):
+        error_message = "Movie already exists!"
+        return render_template('create_movies_form.html', create_rating_active=True, error=error_message)
+
+    # Create a new movie
+    movie_id = next_movie_id
+    next_movie_id += 1
+    new_movie = {'movie_id': movie_id, 'title': title, 'director': director, 'rating': rating}
+    movies.append(new_movie)
+
+    return redirect('/movies')
+
+
+@app.get('/movies/new')
+def create_movies_form():
+    return render_template('create_movies_form.html', create_rating_active=True)
+
 
 @app.get('/movies/search')
-def search_movies():
-    # TODO: Feature 3
+def search_movies_form():
     return render_template('search_movies.html', search_active=True)
+
+# Varsha's search movie function
+@app.post('/movies/search')
+def search_movies():
+    title = request.form.get('title')
+    movies_found = [movie for movie in movies if movie['title'] == title]
+    if movies_found:
+        return render_template('search_movies.html', movies_found=movies_found, search_active=True)
+    else:
+        return render_template('search_movies.html', not_found=True, search_active=True)
 
 
 @app.get('/movies/<int:movie_id>')
