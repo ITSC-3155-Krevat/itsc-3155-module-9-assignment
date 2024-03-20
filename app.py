@@ -15,7 +15,6 @@ def index():
 #Jaidens List All Movies Function
 @app.get('/movies')
 def list_all_movies():
-    movies = []
     moviesList = movie_repository.get_all_movies()
     for i in moviesList:
         movie = movie_repository.get_movie_by_id(i)
