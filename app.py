@@ -5,40 +5,42 @@ app = Flask(__name__)
 movies = []
 next_movie_id = 1
 
-@app.route('/')
+
+@app.get('/')
 def index():
     return render_template('index.html')
 
-# feature save/ create (2) -- cindy
-@app.route('/movies/new', methods=['GET', 'POST'])
-def create_movies_form():
-    global next_movie_id
-    
-    if request.method == 'POST':
-        title = request.form.get('title')
-        director = request.form.get('director')
-        rating = request.form.get('rating')
-        movie_id = next_movie_id
-        next_movie_id += 1
-
-        #test -- checks if movie exists already
-        if any(movie['title'] == title and movie['director'] == director for movie in movies):
-            error_message = "Movie already exists!"
-            return render_template('create_movies_form.html', create_rating_active=True, error=error_message)
-        
-        #create a new movie
-        new_movie = {'movie_id': movie_id, 'title': title, 'director': director, 'rating': rating}
-        # add new movie to the list
-        movies.append(new_movie)
-        
-        return redirect('/movies')
-    
-    else:
-        return render_template('create_movies_form.html', create_rating_active=True, movie_id=next_movie_id)
 
 @app.route('/movies')
 def list_all_movies():
     return render_template('list_all_movies.html', movies=movies)
+
+# create/ save feature cindy
+@app.post('/movies/new')
+def create_movie():
+    global next_movie_id
+
+    title = request.form.get('title')
+    director = request.form.get('director')
+    rating = request.form.get('rating')
+
+    # Check if the movie already exists -- test
+    if any(movie['title'] == title and movie['director'] == director for movie in movies):
+        error_message = "Movie already exists!"
+        return render_template('create_movies_form.html', create_rating_active=True, error=error_message)
+
+    # Create a new movie
+    movie_id = next_movie_id
+    next_movie_id += 1
+    new_movie = {'movie_id': movie_id, 'title': title, 'director': director, 'rating': rating}
+    movies.append(new_movie)
+
+    return redirect('/movies')
+
+
+@app.get('/movies/new')
+def create_movies_form():
+    return render_template('create_movies_form.html', create_rating_active=True)
 
 
 @app.get('/movies/search')
