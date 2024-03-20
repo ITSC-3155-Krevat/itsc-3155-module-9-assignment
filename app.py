@@ -62,4 +62,4 @@ def delete_movie(movie_id: int):
     for movie in movies:
         if movie['movie_id'] == movie_id:
             movies.remove(movie)
-    return redirect('/movies')
+    return redirect('/movies', movies=movies)
