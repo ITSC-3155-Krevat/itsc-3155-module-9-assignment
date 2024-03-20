@@ -1,20 +1,10 @@
 from flask import Flask, redirect, render_template, request
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of d38db6b (Merge branch 'main' into varsha)
 from src.repositories.movie_repository import get_movie_repository
 
 app = Flask(__name__)
 
 movies = []
-<<<<<<< HEAD
 next_movie_id = 1
-=======
-
-# Get the movie repository singleton to use throughout the application
-movie_repository = get_movie_repository()
->>>>>>> parent of d38db6b (Merge branch 'main' into varsha)
 
 
 @app.get('/')
