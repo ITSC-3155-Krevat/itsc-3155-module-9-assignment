@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template
+from flask import Flask, redirect, render_template, request
 
 from src.repositories.movie_repository import get_movie_repository
 
@@ -28,6 +28,16 @@ def create_movies_form():
 def create_movie():
     # TODO: Feature 2
     # After creating the movie in the database, we redirect to the list all movies page
+    name = request.form.get('name')
+    if name is None:
+        return redirect('/movies/new')
+    director = request.form.get('director')
+    if director is None:
+        return redirect('/movies/new')
+    rating = request.form.get('rating')
+    if rating is None:
+        return redirect('/movies/new')
+    create_movie(name, director, rating)
     return redirect('/movies')
 
 
