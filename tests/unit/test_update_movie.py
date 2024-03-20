@@ -1,17 +1,15 @@
-from src.models.movie import Movie
+# TODO: Feature 5
+from flask.testing import FlaskClient
+from app import app
+from src.repositories.movie_repository import get_movie_repository
 
+movie_repository = get_movie_repository()
 
 def test_update_movie():
-    # Setup: Create a repository and add a test movie
-  def test_movie_model():
-    movie = Movie(123, 'Star Wars', 'George Lucas', 5)
-    # Update the movie
-    updated_title = "Updated Star Wars"
-    updated_director = "Updated George Lucas"
-    updated_rating = 3
-    movie.update_movie(movie.id, updated_title, updated_director, updated_rating)
-    
-    assert movie.movie_id == 123
-    assert updated_title.title == 'Updated Star Wars'
-    assert updated_director.director == 'Updated George Lucas'
-    assert updated_rating.rating == 3
+    movie_repository.create_movie('Spiderman', 'Ronni', 5,)
+    spiderman_movie = movie_repository.get_movie_by_title('Spiderman')
+    movie_repository.update_movie(spiderman_movie.movie_id,'Superman', 'Ronni E', 4,)
+
+    assert spiderman_movie.title == 'Superman'
+    assert spiderman_movie.director == 'Ronni E'
+    assert spiderman_movie.rating == 4
