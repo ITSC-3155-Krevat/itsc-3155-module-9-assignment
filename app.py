@@ -1,4 +1,6 @@
 from flask import Flask, redirect, render_template
+from flask import Flask, redirect, render_template, request
+
 
 from src.repositories.movie_repository import get_movie_repository
 
@@ -33,8 +35,22 @@ def create_movie():
 
 @app.get('/movies/search')
 def search_movies():
-    # TODO: Feature 3
-    return render_template('search_movies.html', search_active=True)
+    
+    # Retrieve the 'title' query parameter from the URL
+    title = request.args.get('title', '')
+    
+    # These will be used to pass data and messages to the template
+    movie = None
+    message = None
+    
+    if title:  # Search only if a title is provided
+        movie = movie_repository.get_movie_by_title(title)
+        if not movie:
+            message = "No movie found with this title."
+    
+    # Always render the same template, but pass variables that change based on the conditions
+    return render_template('search_movies.html', movie=movie, message=message, title=title, search_active=True)
+
 
 
 @app.get('/movies/<int:movie_id>')
