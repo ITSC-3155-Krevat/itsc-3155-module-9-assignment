@@ -5,15 +5,26 @@
 {% block body %}
 <h1 class="mb-5">All Movies</h1>
 <p class="mb-3">See our list of movie ratings below</p>
+
+<!--Jaidens List All Movies Function HTML Page. Using Boostrap for the table-->
 <!-- TODO: Feature 1 -->
 {% if movies %}
-  <ul>
-    {% for movie in movies %}
-      <li>{{ movie.title }} - {{ movie.director }} - {{ movie.rating }}</li>
-    {% endfor %}
-  </ul>
+    <table class="table table-striped table-dark">
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Director</th>
+            <th scope="col">Rating</th>
+        </tr>
+        {% for movie in movies %}
+        <tr>
+            <td>{{ movie.title }}</td>
+            <td>{{ movie.director }}</td>
+            <td>{{ movie.rating }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 {% else %}
-  <p>No movies available</p>
+    <h2>No Movies Available!</h2>
 {% endif %}
-
+{% endblock %}
 {% endblock %}

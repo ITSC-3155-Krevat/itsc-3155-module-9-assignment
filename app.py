@@ -3,19 +3,38 @@ from src.repositories.movie_repository import get_movie_repository
 
 app = Flask(__name__)
 
+
+# Get the movie repository singleton to use throughout the application
+movie_repository = get_movie_repository()
 movies = []
 next_movie_id = 1
 
-movie_repository = get_movie_repository()
 
 @app.get('/')
 def index():
     return render_template('index.html')
 
-
+#Jaidens List All Movies Function
 @app.get('/movies')
 def list_all_movies():
-    return render_template('list_all_movies.html', movies=movies)
+    
+    moviesList = movie_repository.get_all_movies()
+    for i in moviesList:
+        movie = movie_repository.get_movie_by_id(i)
+        movies.append(movie)
+    return render_template('list_all_movies.html', movies = movies)
+
+
+@app.route('/movies/new')
+def create_movies_form():
+     return render_template('create_movies_form.html', create_rating_active=True)
+
+
+@app.post('/movies')
+def create_movie():
+    # TODO: Feature 2
+    # After creating the movie in the database, we redirect to the list all movies page
+    return redirect('/movies')
 
 # create/ save feature cindy
 @app.post('/movies/new')
@@ -60,17 +79,22 @@ def search_movies():
     else:
         return render_template('search_movies.html', not_found=True, search_active=True)
 
-
+#Anessa's get single movie feature
 @app.get('/movies/<int:movie_id>')
 def get_single_movie(movie_id: int):
-    # TODO: Feature 4
-    return render_template('get_single_movie.html')
+    # Feature 4
+    for movie in movies:
+        if movie.get('movie_id') == movie_id:
+            return render_template('get_single_movie.html', movie=movie, movie_id=movie_id)
+    response = f"Movie with id: {movie_id} not found."
+    status_code = 400
+    return render_template('get_single_movie.html', movies=False, error_status=status_code, error_message=response)
 
 
 @app.get('/movies/<int:movie_id>/edit')
 def get_edit_movies_page(movie_id: int):
-    return render_template('edit_movies_form.html')
-
+    movie = movie_repository.get_movie_by_id(movie_id)
+    return render_template('edit_movies_form.html', movie=movie)
 
 @app.post('/movies/<int:movie_id>')
 def update_movie(movie_id: int):
@@ -79,7 +103,11 @@ def update_movie(movie_id: int):
     return redirect(f'/movies/{movie_id}')
 
 
+# Nhu's delete movie function
 @app.post('/movies/<int:movie_id>/delete')
 def delete_movie(movie_id: int):
-    # TODO: Feature 6
-    pass
+    # Feature 6
+    for movie in movies:
+        if movie['movie_id'] == movie_id:
+            movies.remove(movie)
+    return redirect('/movies', movies=movies)
