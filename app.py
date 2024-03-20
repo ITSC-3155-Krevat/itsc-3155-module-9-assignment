@@ -1,10 +1,20 @@
 from flask import Flask, redirect, render_template, request
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of d38db6b (Merge branch 'main' into varsha)
 from src.repositories.movie_repository import get_movie_repository
 
 app = Flask(__name__)
 
 movies = []
+<<<<<<< HEAD
 next_movie_id = 1
+=======
+
+# Get the movie repository singleton to use throughout the application
+movie_repository = get_movie_repository()
+>>>>>>> parent of d38db6b (Merge branch 'main' into varsha)
 
 
 @app.get('/')
@@ -14,7 +24,20 @@ def index():
 
 @app.get('/movies')
 def list_all_movies():
-    return render_template('list_all_movies.html', movies=movies)
+    # TODO: Feature 1
+    return render_template('list_all_movies.html', list_movies_active=True)
+
+
+@app.get('/movies/new')
+def create_movies_form():
+    return render_template('create_movies_form.html', create_rating_active=True)
+
+
+@app.post('/movies')
+def create_movie():
+    # TODO: Feature 2
+    # After creating the movie in the database, we redirect to the list all movies page
+    return redirect('/movies')
 
 # create/ save feature cindy
 @app.post('/movies/new')
