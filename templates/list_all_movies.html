@@ -3,7 +3,45 @@
 {% block title %}Movie Rating App | All Movies{% endblock %}
 
 {% block body %}
-<h1 class="mb-5">All Movies</h1>
-<p class="mb-3">See our list of movie ratings below</p>
-<!-- TODO: Feature 1 -->
+<div>
+    <h1 class="mb-5">All Movies</h1>
+    <p class="mb-3">See our list of movie ratings below</p>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Director</th>
+            <th scope="col">Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            {% for i in list_movies.keys() %}
+                <tr>
+                <th scope="row">{{i}}</th>
+                <td>{{list_movies[i].title}}</td>
+                <td>{{list_movies[i].director}}</td>
+                <td>{{list_movies[i].rating}}</td>
+                <td>
+                    <form method="POST" action="/movies/{{ list_movies[i].movie_id}}">
+                        <button type="submit" class="btn btn-success" name="view" id="{{movie_id}}">View</button>
+                    </form>
+                </td>
+                <td>
+                <form method="POST" action="/movies/{{ list_movies[i].movie_id}}/delete">
+                    <button type="submit" class="btn btn-danger" name="delete" id="{{movie_id}}" href="/delete">Delete</button>
+                </form>
+                </td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+</div>
+
+
+
 {% endblock %}
