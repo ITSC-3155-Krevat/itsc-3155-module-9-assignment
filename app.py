@@ -1,9 +1,19 @@
 from flask import Flask, redirect, render_template, request
 from src.repositories.movie_repository import get_movie_repository
 
+
+from src.repositories.movie_repository import get_movie_repository
+
+
 app = Flask(__name__)
 
 movies = []
+
+
+# Get the movie repository singleton to use throughout the application
+movie_repository = get_movie_repository()
+
+
 next_movie_id = 1
 
 
@@ -44,6 +54,7 @@ def create_movies_form():
     return render_template('create_movies_form.html', create_rating_active=True)
 
 
+# Varsha's search movie function
 @app.get('/movies/search')
 def search_movies_form():
     return render_template('search_movies.html', search_active=True)
@@ -57,7 +68,6 @@ def search_movies():
         return render_template('search_movies.html', movies_found=movies_found, search_active=True)
     else:
         return render_template('search_movies.html', not_found=True, search_active=True)
-
 
 @app.get('/movies/<int:movie_id>')
 def get_single_movie(movie_id: int):
