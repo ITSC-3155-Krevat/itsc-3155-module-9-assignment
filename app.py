@@ -1,36 +1,55 @@
 from flask import Flask, redirect, render_template, request
 
+
 from src.repositories.movie_repository import get_movie_repository
+
 
 app = Flask(__name__)
 
 movies = []
 
+
 # Get the movie repository singleton to use throughout the application
 movie_repository = get_movie_repository()
 
 
-@app.get('/')
+next_movie_id = 1
+
+
+@app.route('/')
 def index():
     return render_template('index.html')
 
-
-@app.get('/movies')
-def list_all_movies():
-    # TODO: Feature 1
-    return render_template('list_all_movies.html', list_movies_active=True)
-
-
-@app.get('/movies/new')
+# feature save/ create (2) -- cindy
+@app.route('/movies/new', methods=['GET', 'POST'])
 def create_movies_form():
-    return render_template('create_movies_form.html', create_rating_active=True)
+    global next_movie_id
+    
+    if request.method == 'POST':
+        title = request.form.get('title')
+        director = request.form.get('director')
+        rating = request.form.get('rating')
+        movie_id = next_movie_id
+        next_movie_id += 1
 
+        #test -- checks if movie exists already
+        if any(movie['title'] == title and movie['director'] == director for movie in movies):
+            error_message = "Movie already exists!"
+            return render_template('create_movies_form.html', create_rating_active=True, error=error_message)
+        
+        #create a new movie
+        new_movie = {'movie_id': movie_id, 'title': title, 'director': director, 'rating': rating}
+        # add new movie to the list
+        movies.append(new_movie)
+        
+        return redirect('/movies')
+    
+    else:
+        return render_template('create_movies_form.html', create_rating_active=True, movie_id=next_movie_id)
 
-@app.post('/movies')
-def create_movie():
-    # TODO: Feature 2
-    # After creating the movie in the database, we redirect to the list all movies page
-    return redirect('/movies')
+@app.route('/movies')
+def list_all_movies():
+    return render_template('list_all_movies.html', movies=movies)
 
 # Varsha's search movie function
 @app.get('/movies/search')

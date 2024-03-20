@@ -6,4 +6,14 @@
 <h1 class="mb-5">All Movies</h1>
 <p class="mb-3">See our list of movie ratings below</p>
 <!-- TODO: Feature 1 -->
+{% if movies %}
+  <ul>
+    {% for movie in movies %}
+      <li>{{ movie.title }} - {{ movie.director }} - {{ movie.rating }}</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No movies available</p>
+{% endif %}
+
 {% endblock %}
