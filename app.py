@@ -1,8 +1,10 @@
-from flask import Flask, redirect, render_template, request, session
+from flask import Flask, redirect, render_template, request
 
 from src.repositories.movie_repository import get_movie_repository
 
 app = Flask(__name__)
+
+movies = []
 
 # Get the movie repository singleton to use throughout the application
 movie_repository = get_movie_repository()
@@ -39,11 +41,9 @@ def search_movies_form():
 @app.post('/movies/search')
 def search_movies():
     title = request.form.get('title')
-    movies = session.get('movies', [])
-    
     movies_found = [movie for movie in movies if movie['title'] == title]
     if movies_found:
-        return render_template('search_movies.html', movies=movies_found, search_active=True)
+        return render_template('search_movies.html', movies_found=movies_found, search_active=True)
     else:
         return render_template('search_movies.html', not_found=True, search_active=True)
         

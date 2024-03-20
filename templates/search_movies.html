@@ -13,10 +13,10 @@
     <button type="submit" class="btn btn-primary">Search</button>
 </form>
 
-{% if movies %}
+{% if movies_found %}
     <div class="mt-5">
         <h3 class="mb-3">Movie Rating</h3>
-        {% for movie in movies %}
+        {% for movie in movies_found %}
             <p>Title: {{ movie.title }}</p>
             <p>Rating: {{ movie.rating }}</p>
         {% endfor %}
