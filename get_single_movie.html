@@ -1,0 +1,19 @@
+{% extends '_layout.html' %}
+
+{% block title %}Movie Rating App | {{ movie.title }}{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="mb-5">{{ movie.title }}</h1>
+    <!-- Display movie details -->
+    <div class="row">
+        <div class="col-md-6">
+            <p><strong>ID:</strong> {{ movie.id }}</p>
+            <p><strong>Director:</strong> {{ movie.director }}</p>
+            <p><strong>Rating:</strong> {{ movie.rating }}</p>
+        </div>
+    </div>
+    <!-- Add an Edit button -->
+    <a href="{{ url_for('edit_movie', movie_id=movie.id) }}" class="btn btn-primary">Edit</a>
+</div>
+{% endblock %}
