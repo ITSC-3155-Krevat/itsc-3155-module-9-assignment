@@ -48,6 +48,10 @@ def create_movie():
 def create_movies_form():
     return render_template('create_movies_form.html', create_rating_active=True)
 
+# Varsha's search movie function
+@app.get('/movies/search')
+def search_movies_form():
+    return render_template('search_movies.html', search_active=True)
 
 # Varsha's search movie function
 @app.post('/movies/search')
