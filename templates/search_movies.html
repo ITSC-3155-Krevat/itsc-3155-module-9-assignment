@@ -4,6 +4,14 @@
 
 {% block body %}
 <h1 class="mb-5">Search Movie Ratings</h1>
-<p class="mb-3">Search for a movie rating below</p>
-<!-- TODO: Feature 3 -->
+<p class="mb-3">Search for a movie rating below</p> 
+<form action="/movies/search" method="get">
+    <div class="mb-3"></div>
+        <label for="title">Enter Movie Title:</label>
+        <input type="text" id="title" name="title" required>
+    </div>
+    <button type="submit">Search</button>
+</form>
+
 {% endblock %}
+
