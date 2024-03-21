@@ -13,10 +13,12 @@ def index():
     return render_template('index.html')
 
 
-@app.get('/movies')
+@app.route('/movies')
 def list_all_movies():
     # TODO: Feature 1
-    return render_template('list_all_movies.html', list_movies_active=True)
+    movies_dict = movie_repository.get_all_movies()
+    movies_list = list(movies_dict.values())
+    return render_template('list_all_movies.html', movies=movies_list)
 
 
 @app.get('/movies/new')
@@ -27,6 +29,19 @@ def create_movies_form():
 @app.post('/movies')
 def create_movie():
     # TODO: Feature 2
+
+    # After creating the movie in the database, we redirect to the list all movies page
+    name = request.form.get('name')
+    if name is None:
+        return redirect('/movies/new')
+    director = request.form.get('director')
+    if director is None:
+        return redirect('/movies/new')
+    rating = request.form.get('rating')
+    if rating is None:
+        return redirect('/movies/new')
+    create_movie(name, director, rating)
+
     return redirect('/movies')
 
 
