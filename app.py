@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template
+from flask import Flask, redirect, render_template, request, url_for
 
 from src.repositories.movie_repository import get_movie_repository
 
@@ -52,7 +52,21 @@ def get_edit_movies_page(movie_id: int):
 def update_movie(movie_id: int):
     # TODO: Feature 5
     # After updating the movie in the database, we redirect back to that single movie page
-    return redirect(f'/movies/{movie_id}')
+    title = request.form['title']
+    director = request.form['director']
+    rating = request.form['rating']
+    # Convert rating to an integer
+    rating = int(rating)
+    # return redirect(f'/movies/{movie_id}')
+    try: 
+        # Updating the movie in the repository
+        movie_repository.update_movie(movie_id, title, director, rating)
+       
+        # Redirecting back to the single movie's page on successful update
+        return redirect(url_for('get_single_movie', movie_id=movie_id))
+    except ValueError as e:
+        # Handling the case where the movie ID does not exist
+        return str(e), 404
 
 
 @app.post('/movies/<int:movie_id>/delete')
