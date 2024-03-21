@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template
+from flask import Flask, redirect, render_template, request
 
 from src.repositories.movie_repository import get_movie_repository
 
@@ -13,10 +13,12 @@ def index():
     return render_template('index.html')
 
 
-@app.get('/movies')
+@app.route('/movies')
 def list_all_movies():
     # TODO: Feature 1
-    return render_template('list_all_movies.html', list_movies_active=True)
+    movies_dict = movie_repository.get_all_movies()
+    movies_list = list(movies_dict.values())
+    return render_template('list_all_movies.html', movies=movies_list)
 
 
 @app.get('/movies/new')
@@ -27,19 +29,35 @@ def create_movies_form():
 @app.post('/movies')
 def create_movie():
     # TODO: Feature 2
+
     # After creating the movie in the database, we redirect to the list all movies page
+    name = request.form.get('name')
+    if name is None:
+        return redirect('/movies/new')
+    director = request.form.get('director')
+    if director is None:
+        return redirect('/movies/new')
+    rating = request.form.get('rating')
+    if rating is None:
+        return redirect('/movies/new')
+    create_movie(name, director, rating)
     return redirect('/movies')
 
 
 @app.get('/movies/search')
 def search_movies():
     # TODO: Feature 3
-    return render_template('search_movies.html', search_active=True)
+    movie_search = request.args.get("search")
+    is_query = movie_search != ''
+    movie = None
+    if is_query:
+        movie = movie_repository.get_movie_by_title(movie_search)
+    return render_template('search_movies.html', search_active=True, movie=movie, is_query=is_query)
 
 
 @app.get('/movies/<int:movie_id>')
 def get_single_movie(movie_id: int):
-    # TODO: Feature 4
+    movie = movie_repository.get_movie_by_id(movie_id)
     return render_template('get_single_movie.html')
 
 
