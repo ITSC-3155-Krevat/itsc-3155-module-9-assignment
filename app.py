@@ -24,17 +24,6 @@ def list_all_movies():
     return render_template('list_all_movies.html', movies = movies)
 
 
-@app.route('/movies/new')
-def create_movies_form():
-     return render_template('create_movies_form.html', create_rating_active=True)
-
-
-@app.post('/movies')
-def create_movie():
-    # TODO: Feature 2
-    # After creating the movie in the database, we redirect to the list all movies page
-    return redirect('/movies')
-
 # create/ save feature cindy
 @app.post('/movies/new')
 def create_movie():
@@ -92,7 +81,10 @@ def get_single_movie(movie_id: int):
 
 @app.get('/movies/<int:movie_id>/edit')
 def get_edit_movies_page(movie_id: int):
-    movie = movie_repository.get_movie_by_id(movie_id)
+    for movie in movies:
+        if movie.get('movie_id') == movie_id:
+    #movie = movie_repository.get_movie_by_id(movie_id)
+            return render_template('edit_movies_form.html', movie=movie)
     return render_template('edit_movies_form.html', movie=movie)
 
 @app.post('/movies/<int:movie_id>')
@@ -109,4 +101,4 @@ def delete_movie(movie_id: int):
     for movie in movies:
         if movie['movie_id'] == movie_id:
             movies.remove(movie)
-    return redirect('/movies', movies=movies)
+    return redirect('/movies')

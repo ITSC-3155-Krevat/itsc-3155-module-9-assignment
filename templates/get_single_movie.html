@@ -13,7 +13,7 @@
             <p name="rating">Rating: <span class="font-weight-bold font-italic">{{ movie.rating }}/5 stars</span></p>
             <form>
                 <button type="submit" class="w-20 h-20 p-3 mt-5 btn btn-primary" name="edit" formaction="/movies/{{ movie.movie_id }}/edit" formmethod="GET">Edit</button>
-                <button type="submit" class="w-20 h-20 p-3 mt-5 btn btn-danger" name="delete" formaction="/movies/{{ movie.movie_id }}/delete" formmethod="DELETE">Delete</button>
+                <button type="submit" class="w-20 h-20 p-3 mt-5 btn btn-danger" name="delete" formaction="/movies/{{ movie.movie_id }}/delete" formmethod="POST">Delete</button>
             </form>
         </div>
     {% endif %}
