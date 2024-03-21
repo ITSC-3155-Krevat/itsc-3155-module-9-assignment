@@ -1,3 +1,4 @@
+ 
 {% extends '_layout.html' %}
 
 {% block title %}Movie Rating App | All Movies{% endblock %}
@@ -5,5 +6,33 @@
 {% block body %}
 <h1 class="mb-5">All Movies</h1>
 <p class="mb-3">See our list of movie ratings below</p>
-<!-- TODO: Feature 1 -->
+
+{% if movies %}
+<table class="table">
+ <thead>
+    <tr>
+      <th>Title</th>
+      <th>Director</th>
+      <th>Rating</th>
+      <th>Action</th>
+    </tr>
+ </thead>
+ <tbody>
+    {% for movie in movies %}
+    <tr>
+      <td>{{ movies[movie].title }}</td>
+      <td>{{ movies[movie].director }}</td>
+      <td>{{ movies[movie].rating }}</td>
+      <td>
+        <form action="{{  url_for( 'get_single_movie', movie_id=movies[movie].movie_id)  }}" method="get">
+          <button type="submit" class="btn btn-primary">View</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+ </tbody>
+</table>
+{% else %}
+<p>No movies found.</p>
+{% endif %}
 {% endblock %}
