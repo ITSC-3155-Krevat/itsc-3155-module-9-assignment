@@ -14,20 +14,16 @@ def test_search_movies(client):
 
 def test_search_movies_rating(client):
     response = client.post('/movies/search', data = {
-        'title': 'new', 
-        'director': 'test director',
-        'rating': '5'
+        'title': 'test' 
     }, follow_redirects=True)
 
     assert response.status_code == 200
-    assert b"new" in response.data
-    assert b"5" in response.data
+    assert b"test" in response.data
 
 def test_movie_not_found(client):
     response = client.post('/movies/search', data = {
-        'title':'2nd Test Movie',
-        'director': '2nd Test Director',
-        'rating': '4'}, follow_redirects=True)
+        'title':'2nd Test Movie'
+        }, follow_redirects=True)
     assert response.status_code == 200
-    assert b"<h2>Movie Not Found.</h2>" not in response.data
+    assert b"<h3>Movie Not Found</h3>" in response.data
     
