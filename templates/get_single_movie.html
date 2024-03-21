@@ -5,4 +5,14 @@
 {% block body %}
 <h1 class="mb-5"></h1>
 <!-- TODO: Feature 4 -->
+<h1 class="mb-5">{{ movie.title }}</h1>
+<p>Director: {{ movie.director }}</p>
+<p>Rating: {{ movie.rating }}</p>
+
+<!-- Edit and Delete buttons -->
+<a href="/movies/edit/{{ movie.movie_id }}" class="btn btn-warning">Edit</a>
+<form action="/movies/delete/{{ movie.movie_id }}" method="POST" style="display:inline;">
+    <button type="submit" class="btn btn-danger">Delete</button>
+</form>
+
 {% endblock %}
