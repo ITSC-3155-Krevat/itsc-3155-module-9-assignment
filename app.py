@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template
+
 from flask import Flask, redirect, render_template, request, abort
 
 from src.repositories.movie_repository import get_movie_repository
@@ -8,7 +8,6 @@ app = Flask(__name__)
 # Get the movie repository singleton to use throughout the application
 movie_repository = get_movie_repository()
 
-
 @app.get('/')
 def index():
     return render_template('index.html')
@@ -17,7 +16,7 @@ def index():
 @app.get('/movies')
 def list_all_movies():
     # TODO: Feature 1
-    return render_template('list_all_movies.html', list_movies_active=True)
+    return render_template('list_all_movies.html', list_movies_active=True, movie_list = movie_repository.get_all_movies())
 
 
 @app.get('/movies/new')
@@ -29,7 +28,6 @@ def create_movies_form():
 def create_movie():
     # TODO: Feature 2
     # After creating the movie in the database, we redirect to the list all movies page
-        return redirect('/movies')
 
 
 @app.get('/movies/search')
@@ -44,7 +42,13 @@ def search_movies():
 @app.get('/movies/<int:movie_id>')
 def get_single_movie(movie_id: int):
     # TODO: Feature 4
-    return render_template('get_single_movie.html')
+    #call id
+    movie = movie_repository.get_movie_by_id(movie_id)
+    if movie == 'None':
+        return 'Movie not found.'
+    else:
+        redirect(f'/movies/{movie_id}')
+        return render_template('get_single_movie.html', movie=movie)
 
 
 @app.get('/movies/<int:movie_id>/edit')
