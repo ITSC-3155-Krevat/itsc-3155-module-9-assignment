@@ -6,14 +6,14 @@
 <h1 class="mb-5">Create Movie Rating</h1>
 <p class="mb-3">Create a movie rating below</p>
 <!-- TODO: Feature 2 -->
-<form action="/movie" method="post">
+<form action="/movies" method="post">
         <div class="form-group">
           <label for="name">Movie Name:</label>
           <input type="name" class="form-control" id="name" placeholder="Enter title">
         </div>
         <div class="form-group">
-            <label for="name">Movie Name:</label>
-            <input type="name" class="form-control" id="name" placeholder="Enter title">
+            <label for="director">Director name:</label>
+            <input type="director" class="form-control" id="director" placeholder="Enter director">
           </div>
 
           <div class="form-group">
@@ -26,7 +26,7 @@
               <option value = '5'>5</option>
             </select>
           </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button href= "/movies" type="submit" class="btn btn-primary">Submit</button>
 </form>
 
 {% endblock %}
