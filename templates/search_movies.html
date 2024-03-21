@@ -17,7 +17,9 @@
     <div class="mt-5">
         <h3 class="mb-3">Movie Rating</h3>
         {% for movie in movies_found %}
-            <p>Title: {{ movie.title }}</p>
+            <a href="/movies/{{ movie.movie_id }}">
+                <p>Title: {{ movie.title }}</p>
+            </a>
             <p>Rating: {{ movie.rating }}</p>
         {% endfor %}
     </div>

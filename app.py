@@ -3,26 +3,24 @@ from src.repositories.movie_repository import get_movie_repository
 
 app = Flask(__name__)
 
-
 # Get the movie repository singleton to use throughout the application
 movie_repository = get_movie_repository()
 movies = []
 next_movie_id = 1
 
+
 @app.get('/')
 def index():
     return render_template('index.html')
 
-#Jaidens List All Movies Function
+
 @app.get('/movies')
 def list_all_movies():
-    
     moviesList = movie_repository.get_all_movies()
     for i in moviesList:
         movie = movie_repository.get_movie_by_id(i)
         movies.append(movie)
-    return render_template('list_all_movies.html', movies = movies)
-
+    return render_template('list_all_movies.html', movies=movies)
 
 # create/ save feature cindy
 @app.post('/movies/new')
@@ -46,16 +44,10 @@ def create_movie():
 
     return redirect('/movies')
 
-
 @app.get('/movies/new')
 def create_movies_form():
     return render_template('create_movies_form.html', create_rating_active=True)
 
-
-# Varsha's search movie function
-@app.get('/movies/search')
-def search_movies_form():
-    return render_template('search_movies.html', search_active=True)
 
 # Varsha's search movie function
 @app.post('/movies/search')
@@ -66,6 +58,8 @@ def search_movies():
         return render_template('search_movies.html', movies_found=movies_found, search_active=True)
     else:
         return render_template('search_movies.html', not_found=True, search_active=True)
+
+
 
 #Anessa's get single movie feature
 @app.get('/movies/<int:movie_id>')
@@ -83,9 +77,9 @@ def get_single_movie(movie_id: int):
 def get_edit_movies_page(movie_id: int):
     for movie in movies:
         if movie.get('movie_id') == movie_id:
-    #movie = movie_repository.get_movie_by_id(movie_id)
             return render_template('edit_movies_form.html', movie=movie)
     return render_template('edit_movies_form.html', movie=movie)
+
 
 @app.post('/movies/<int:movie_id>')
 def update_movie(movie_id: int):
