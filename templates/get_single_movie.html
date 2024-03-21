@@ -4,5 +4,11 @@
 
 {% block body %}
 <h1 class="mb-5"></h1>
-<!-- TODO: Feature 4 -->
+<p>Director: {{ movie.director }}</p>
+<p>Rating: {{ movie.rating }}</p>
+<a href="/movies/{{ movie.movie_id }}/edit" class="btn btn-primary">Edit</a>
+<form action="/movies/{{ movie.movie_id }}" method="POST" style="display: inline-block;">
+    <input type="hidden" name="_method" value="DELETE">
+    <button type="submit" class="btn btn-danger">Delete</button>
+</form>
 {% endblock %}
